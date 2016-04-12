@@ -44,7 +44,7 @@ package com.itextpdf.zugferd;
 import com.itextpdf.pdfa.PdfAXMPUtil;
 
 public class ZugferdXMPUtil extends PdfAXMPUtil {
-    public static final String zugferdExtension =
+    static final String ZUGFERD_EXTENSION =
             "    <x:xmpmeta xmlns:x=\"adobe:ns:meta/\">\n" +
                     "      <rdf:RDF xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\">\n" +
                     "        <rdf:Description rdf:about=\"\" xmlns:zf=\"urn:ferd:pdfa:CrossIndustryDocument:invoice:1p0#\">\n" +
@@ -95,9 +95,9 @@ public class ZugferdXMPUtil extends PdfAXMPUtil {
                     "      </rdf:RDF>\n" +
                     "    </x:xmpmeta>\n";
 
-    public static final String zugferdSchemaNS = "urn:ferd:pdfa:CrossIndustryDocument:invoice:1p0#";
-    public static final String zugferdConformanceLevel = "ConformanceLevel";
-    public static final String zugferdDocumentFileName = "DocumentFileName";
-    public static final String zugferdDocumentType = "DocumentType";
-    public static final String zugferdVersion = "Version";
+    public static final String ZUGFERD_SCHEMA_NS = "urn:ferd:pdfa:CrossIndustryDocument:invoice:1p0#";
+    public static final String ZUGFERD_CONFORMANCE_LEVEL = "ConformanceLevel";
+    public static final String ZUGFERD_DOCUMENT_FILE_NAME = "DocumentFileName";
+    public static final String ZUGFERD_DOCUMENT_TYPE = "DocumentType";
+    public static final String ZUGFERD_VERSION = "Version";
 }

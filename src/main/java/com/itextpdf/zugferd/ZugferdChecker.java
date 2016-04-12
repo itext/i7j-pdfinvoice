@@ -73,7 +73,7 @@ public class ZugferdChecker extends PdfA3Checker {
         XMPMeta xmpMeta;
         try {
             xmpMeta = XMPMetaFactory.parseFromBuffer(catalog.getAsStream(PdfName.Metadata).getBytes());
-            String docFileName = xmpMeta.getPropertyString(ZugferdXMPUtil.zugferdSchemaNS, ZugferdXMPUtil.zugferdDocumentFileName);
+            String docFileName = xmpMeta.getPropertyString(ZugferdXMPUtil.ZUGFERD_SCHEMA_NS, ZugferdXMPUtil.ZUGFERD_DOCUMENT_FILE_NAME);
 
             for (PdfDictionary attachment : attachments) {
                 if ((attachment.getAsString(PdfName.UF) != null && docFileName.equals(attachment.getAsString(PdfName.UF).toString()))

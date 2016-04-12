@@ -147,11 +147,11 @@ public class ZugferdDocument extends PdfADocument {
     private String getZugferdExtension(ZugferdConformanceLevel conformanceLevel) {
         switch (conformanceLevel) {
             case ZUGFeRDBasic:
-                return String.format(ZugferdXMPUtil.zugferdExtension, "BASIC");
+                return String.format(ZugferdXMPUtil.ZUGFERD_EXTENSION, "BASIC");
             case ZUGFeRDComfort:
-                return String.format(ZugferdXMPUtil.zugferdExtension, "COMFORT");
+                return String.format(ZugferdXMPUtil.ZUGFERD_EXTENSION, "COMFORT");
             case ZUGFeRDExtended:
-                return String.format(ZugferdXMPUtil.zugferdExtension, "EXTENDED");
+                return String.format(ZugferdXMPUtil.ZUGFERD_EXTENSION, "EXTENDED");
             default:
                 return null;
         }
