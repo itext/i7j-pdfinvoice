@@ -47,10 +47,10 @@ package com.itextpdf.zugferd.validation;
  */
 public class NumberChecker extends CodeValidation {
 
-    public final static int INTEGER = 0;
-    public final static int ANY_DECIMALS = 1;
-    public final static int TWO_DECIMALS = 2;
-    public final static int FOUR_DECIMALS = 4;
+    public static final int INTEGER = 0;
+    public static final int ANY_DECIMALS = 1;
+    public static final int TWO_DECIMALS = 2;
+    public static final int FOUR_DECIMALS = 4;
 
     /** The type of checker: INTEGER, ANY_DECIMALS, TWO_DECIMALS, FOUR_DECIMALS. */
     protected int type;
