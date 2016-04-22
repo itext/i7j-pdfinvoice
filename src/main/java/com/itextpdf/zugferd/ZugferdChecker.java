@@ -47,7 +47,7 @@ import com.itextpdf.kernel.pdf.PdfName;
 import com.itextpdf.kernel.xmp.XMPException;
 import com.itextpdf.kernel.xmp.XMPMeta;
 import com.itextpdf.kernel.xmp.XMPMetaFactory;
-import com.itextpdf.pdfa.PdfAConformanceLevel;
+import com.itextpdf.kernel.pdf.PdfAConformanceLevel;
 import com.itextpdf.pdfa.checker.PdfA3Checker;
 
 import java.util.ArrayList;

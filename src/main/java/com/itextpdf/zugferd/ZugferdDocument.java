@@ -48,7 +48,7 @@ import com.itextpdf.kernel.xmp.XMPException;
 import com.itextpdf.kernel.xmp.XMPMeta;
 import com.itextpdf.kernel.xmp.XMPMetaFactory;
 import com.itextpdf.kernel.xmp.XMPUtils;
-import com.itextpdf.pdfa.PdfAConformanceLevel;
+import com.itextpdf.kernel.pdf.PdfAConformanceLevel;
 import com.itextpdf.pdfa.PdfADocument;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,6 +60,8 @@ import com.itextpdf.zugferd.ZugferdProductInfo;
 import com.itextpdf.kernel.Version;
 
 public class ZugferdDocument extends PdfADocument {
+    private static final long serialVersionUID = 1737898087328462098L;
+
     public ZugferdDocument(PdfWriter writer, PdfAConformanceLevel pdfaConformanceLevel, PdfOutputIntent outputIntent) {
         super(writer, pdfaConformanceLevel, outputIntent);
     }
@@ -135,7 +137,7 @@ public class ZugferdDocument extends PdfADocument {
 
     @Override
     protected void setChecker(PdfAConformanceLevel conformanceLevel) {
-        if (conformanceLevel.compareTo(PdfAConformanceLevel.PDF_A_3A) < 0) {
+        if (!conformanceLevel.equals(PdfAConformanceLevel.PDF_A_3B)) {
             Logger logger = LoggerFactory.getLogger(ZugferdDocument.class);
             logger.warn(ZugferdLogMessageConstant.WRONG_OR_NO_CONFORMANCE_LEVEL);
             checker = new ZugferdChecker(PdfAConformanceLevel.PDF_A_3B);
