@@ -49,8 +49,8 @@ import com.itextpdf.zugferd.validation.comfort.PaymentMeansCode;
 import com.itextpdf.zugferd.validation.comfort.TaxCategoryCode;
 import com.itextpdf.zugferd.exceptions.DataIncompleteException;
 import com.itextpdf.zugferd.exceptions.InvalidCodeException;
-import com.itextpdf.zugferd.profiles.BasicProfile;
-import com.itextpdf.zugferd.profiles.ComfortProfile;
+import com.itextpdf.zugferd.profiles.IBasicProfile;
+import com.itextpdf.zugferd.profiles.IComfortProfile;
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 
@@ -103,7 +103,7 @@ public class InvoiceDOM {
      * @throws com.itextpdf.zugferd.exceptions.DataIncompleteException
      * @throws com.itextpdf.zugferd.exceptions.InvalidCodeException
      */
-    public InvoiceDOM(BasicProfile data)
+    public InvoiceDOM(IBasicProfile data)
             throws ParserConfigurationException, SAXException, IOException,
             DataIncompleteException, InvalidCodeException {
         String licenseKeyClassName = "com.itextpdf.licensekey.LicenseKey";
@@ -159,7 +159,7 @@ public class InvoiceDOM {
      * @param data the interface that gives us access to the data
      * @throws com.itextpdf.zugferd.exceptions.InvalidCodeException
      */
-    private void importData(Document doc, BasicProfile data)
+    private void importData(Document doc, IBasicProfile data)
             throws DataIncompleteException, InvalidCodeException {
         if (!data.getTestIndicator()) throw new InvalidCodeException("false",
                 "the test indicator: the ZUGFeRD functionality is still in beta; contact sales@itextpdf.com for more info.");
@@ -177,7 +177,7 @@ public class InvoiceDOM {
      * @param element the rsm:SpecifiedExchangedDocumentContext element
      * @param data    the invoice data
      */
-    protected void importSpecifiedExchangedDocumentContext(Element element, BasicProfile data) {
+    protected void importSpecifiedExchangedDocumentContext(Element element, IBasicProfile data) {
         // TestIndicator (optional)
         importContent(element, "udt:Indicator", data.getTestIndicator() ? "true" : "false");
     }
@@ -190,7 +190,7 @@ public class InvoiceDOM {
      * @throws com.itextpdf.zugferd.exceptions.DataIncompleteException
      * @throws com.itextpdf.zugferd.exceptions.InvalidCodeException
      */
-    protected void importHeaderExchangedDocument(Element element, BasicProfile data)
+    protected void importHeaderExchangedDocument(Element element, IBasicProfile data)
             throws DataIncompleteException, InvalidCodeException {
         // ID (required)
         check(data.getId(), "HeaderExchangedDocument > ID");
@@ -200,7 +200,7 @@ public class InvoiceDOM {
         importContent(element, "ram:Name", data.getName());
         // TypeCode (required)
         DocumentTypeCode dtCode = new DocumentTypeCode(
-                data instanceof ComfortProfile ? DocumentTypeCode.COMFORT : DocumentTypeCode.BASIC);
+                data instanceof IComfortProfile ? DocumentTypeCode.COMFORT : DocumentTypeCode.BASIC);
         importContent(element, "ram:TypeCode", dtCode.check(data.getTypeCode()));
         // IssueDateTime (required)
         check(data.getDateTimeFormat(), "HeaderExchangedDocument > DateTimeString");
@@ -208,8 +208,8 @@ public class InvoiceDOM {
         // IncludedNote (optional): header level
         String[][] notes = data.getNotes();
         String[] notesCodes = null;
-        if (data instanceof ComfortProfile) {
-            notesCodes = ((ComfortProfile) data).getNotesCodes();
+        if (data instanceof IComfortProfile) {
+            notesCodes = ((IComfortProfile) data).getNotesCodes();
         }
         importIncludedNotes(element, FreeTextSubjectCode.HEADER, notes, notesCodes);
     }
@@ -309,12 +309,12 @@ public class InvoiceDOM {
      * @throws com.itextpdf.zugferd.exceptions.DataIncompleteException
      * @throws com.itextpdf.zugferd.exceptions.InvalidCodeException
      */
-    protected void importSpecifiedSupplyChainTradeTransaction(Element element, BasicProfile data)
+    protected void importSpecifiedSupplyChainTradeTransaction(Element element, IBasicProfile data)
             throws DataIncompleteException, InvalidCodeException {
 
-        ComfortProfile comfortData = null;
-        if (data instanceof ComfortProfile)
-            comfortData = (ComfortProfile) data;
+        IComfortProfile comfortData = null;
+        if (data instanceof IComfortProfile)
+            comfortData = (IComfortProfile) data;
         
         /* ram:ApplicableSupplyChainTradeAgreement */
 
@@ -437,15 +437,15 @@ public class InvoiceDOM {
      * @throws com.itextpdf.zugferd.exceptions.DataIncompleteException
      * @throws com.itextpdf.zugferd.exceptions.InvalidCodeException
      */
-    protected void importSellerTradeParty(Element parent, BasicProfile data)
+    protected void importSellerTradeParty(Element parent, IBasicProfile data)
             throws DataIncompleteException, InvalidCodeException {
         String id = null;
         String[] globalID = null;
         String[] globalIDScheme = null;
-        if (data instanceof ComfortProfile) {
-            id = ((ComfortProfile) data).getSellerID();
-            globalID = ((ComfortProfile) data).getSellerGlobalID();
-            globalIDScheme = ((ComfortProfile) data).getSellerGlobalSchemeID();
+        if (data instanceof IComfortProfile) {
+            id = ((IComfortProfile) data).getSellerID();
+            globalID = ((IComfortProfile) data).getSellerGlobalID();
+            globalIDScheme = ((IComfortProfile) data).getSellerGlobalSchemeID();
         }
         String name = data.getSellerName();
         String postcode = data.getSellerPostcode();
@@ -470,15 +470,15 @@ public class InvoiceDOM {
      * @throws com.itextpdf.zugferd.exceptions.DataIncompleteException
      * @throws com.itextpdf.zugferd.exceptions.InvalidCodeException
      */
-    protected void importBuyerTradeParty(Element parent, BasicProfile data)
+    protected void importBuyerTradeParty(Element parent, IBasicProfile data)
             throws DataIncompleteException, InvalidCodeException {
         String id = null;
         String[] globalID = null;
         String[] globalIDScheme = null;
-        if (data instanceof ComfortProfile) {
-            id = ((ComfortProfile) data).getBuyerID();
-            globalID = ((ComfortProfile) data).getBuyerGlobalID();
-            globalIDScheme = ((ComfortProfile) data).getBuyerGlobalSchemeID();
+        if (data instanceof IComfortProfile) {
+            id = ((IComfortProfile) data).getBuyerID();
+            globalID = ((IComfortProfile) data).getBuyerGlobalID();
+            globalIDScheme = ((IComfortProfile) data).getBuyerGlobalSchemeID();
         }
         String name = data.getBuyerName();
         String postcode = data.getBuyerPostcode();
@@ -503,7 +503,7 @@ public class InvoiceDOM {
      * @throws com.itextpdf.zugferd.exceptions.DataIncompleteException
      * @throws com.itextpdf.zugferd.exceptions.InvalidCodeException
      */
-    protected void importInvoiceeTradeParty(Element parent, ComfortProfile data)
+    protected void importInvoiceeTradeParty(Element parent, IComfortProfile data)
             throws DataIncompleteException, InvalidCodeException {
         String name = data.getInvoiceeName();
         if (name == null) return;
@@ -597,7 +597,7 @@ public class InvoiceDOM {
      * @param data   the data
      * @throws com.itextpdf.zugferd.exceptions.InvalidCodeException
      */
-    protected void importPaymentMeans(Element parent, BasicProfile data)
+    protected void importPaymentMeans(Element parent, IBasicProfile data)
             throws InvalidCodeException {
         String[] pmID = data.getPaymentMeansID();
         int n = pmID.length;
@@ -615,8 +615,8 @@ public class InvoiceDOM {
         String[] pmBIC = data.getPaymentMeansPayeeFinancialInstitutionBIC();
         String[] pmGermanBankleitzahlID = data.getPaymentMeansPayeeFinancialInstitutionGermanBankleitzahlID();
         String[] pmFinancialInst = data.getPaymentMeansPayeeFinancialInstitutionName();
-        if (data instanceof ComfortProfile) {
-            ComfortProfile comfortData = (ComfortProfile) data;
+        if (data instanceof IComfortProfile) {
+            IComfortProfile comfortData = (IComfortProfile) data;
             pmTypeCode = comfortData.getPaymentMeansTypeCode();
             pmInformation = comfortData.getPaymentMeansInformation();
             pmPayerIBAN = comfortData.getPaymentMeansPayerAccountIBAN();
@@ -714,7 +714,7 @@ public class InvoiceDOM {
      * @throws com.itextpdf.zugferd.exceptions.DataIncompleteException
      * @throws com.itextpdf.zugferd.exceptions.InvalidCodeException
      */
-    protected void importTax(Element parent, BasicProfile data)
+    protected void importTax(Element parent, IBasicProfile data)
             throws InvalidCodeException, DataIncompleteException {
         String[] calculated = data.getTaxCalculatedAmount();
         int n = calculated.length;
@@ -725,8 +725,8 @@ public class InvoiceDOM {
         String[] basisAmountCurr = data.getTaxBasisAmountCurrencyID();
         String[] category = new String[n];
         String[] percent = data.getTaxApplicablePercent();
-        if (data instanceof ComfortProfile) {
-            ComfortProfile comfortData = (ComfortProfile) data;
+        if (data instanceof IComfortProfile) {
+            IComfortProfile comfortData = (IComfortProfile) data;
             exemptionReason = comfortData.getTaxExemptionReason();
             category = comfortData.getTaxCategoryCode();
         }
@@ -786,7 +786,7 @@ public class InvoiceDOM {
      * @param data   the data
      * @throws InvalidCodeException
      */
-    protected void importSpecifiedTradeAllowanceCharge(Element parent, ComfortProfile data)
+    protected void importSpecifiedTradeAllowanceCharge(Element parent, IComfortProfile data)
             throws InvalidCodeException {
         Boolean[] indicator = data.getSpecifiedTradeAllowanceChargeIndicator();
         String[] actualAmount = data.getSpecifiedTradeAllowanceChargeActualAmount();
@@ -842,7 +842,7 @@ public class InvoiceDOM {
      * @param data   the data
      * @throws InvalidCodeException
      */
-    protected void importSpecifiedLogisticsServiceCharge(Element parent, ComfortProfile data)
+    protected void importSpecifiedLogisticsServiceCharge(Element parent, IComfortProfile data)
             throws InvalidCodeException {
         String[][] description = data.getSpecifiedLogisticsServiceChargeDescription();
         String[] appliedAmount = data.getSpecifiedLogisticsServiceChargeAmount();
@@ -900,7 +900,7 @@ public class InvoiceDOM {
      * @param data   the data
      * @throws InvalidCodeException
      */
-    protected void importSpecifiedTradePaymentTerms(Element parent, ComfortProfile data)
+    protected void importSpecifiedTradePaymentTerms(Element parent, IComfortProfile data)
             throws InvalidCodeException {
         String[][] description = data.getSpecifiedTradePaymentTermsDescription();
         Date[] dateTime = data.getSpecifiedTradePaymentTermsDueDateTime();
@@ -944,7 +944,7 @@ public class InvoiceDOM {
      * @throws DataIncompleteException
      * @throws InvalidCodeException
      */
-    protected void importLineItemsComfort(Element parent, ComfortProfile data)
+    protected void importLineItemsComfort(Element parent, IComfortProfile data)
             throws DataIncompleteException, InvalidCodeException {
         String[] lineIDs = data.getLineItemLineID();
         if (lineIDs.length == 0)
@@ -1169,7 +1169,7 @@ public class InvoiceDOM {
      * @throws DataIncompleteException
      * @throws InvalidCodeException
      */
-    protected void importLineItemsBasic(Element parent, BasicProfile data)
+    protected void importLineItemsBasic(Element parent, IBasicProfile data)
             throws DataIncompleteException, InvalidCodeException {
         String[] quantity = data.getLineItemBilledQuantity();
         if (quantity.length == 0)

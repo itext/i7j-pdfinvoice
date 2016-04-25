@@ -52,7 +52,7 @@ import java.util.List;
  * all the data needed to create an XML attachment for a ZUGFeRD invoice that
  * conforms with the Comfort profile.
  */
-public class ComfortProfileImp extends BasicProfileImp implements ComfortProfile {
+public class ComfortProfileImp extends BasicProfileImp implements IComfortProfile {
     
     protected List<String> notesCodes = new ArrayList<String>();
     protected String buyerReference;

@@ -52,7 +52,7 @@ import java.util.List;
  * all the data needed to create an XML attachment for a ZUGFeRD invoice that
  * conforms with the Basic profile.
  */
-public class BasicProfileImp implements BasicProfile {
+public class BasicProfileImp implements IBasicProfile {
     
     // member-variables storing all the data
     protected boolean test = true;
