@@ -41,9 +41,7 @@
     address: sales@itextpdf.com */
 package com.itextpdf.zugferd;
 
-import com.itextpdf.io.LogMessageConstant;
-
-public class ZugferdLogMessageConstant extends LogMessageConstant {
+public final class ZugferdLogMessageConstant {
     /**
      * Log message.
      */

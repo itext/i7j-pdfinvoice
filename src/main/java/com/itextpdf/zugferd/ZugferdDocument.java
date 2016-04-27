@@ -45,6 +45,7 @@ package com.itextpdf.zugferd;
 import com.itextpdf.kernel.log.Counter;
 import com.itextpdf.kernel.log.CounterFactory;
 import com.itextpdf.kernel.pdf.PdfAConformanceLevel;
+import com.itextpdf.io.LogMessageConstant;
 import com.itextpdf.kernel.pdf.PdfOutputIntent;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.kernel.xmp.XMPException;
@@ -63,11 +64,14 @@ import com.itextpdf.zugferd.ZugferdProductInfo;
 import com.itextpdf.kernel.Version;
 
 public class ZugferdDocument extends PdfADocument {
+
     private static final long serialVersionUID = 1737898087328462098L;
 
-    public ZugferdDocument(PdfWriter writer, PdfAConformanceLevel pdfaConformanceLevel, PdfOutputIntent outputIntent) {
+    private ZugferdConformanceLevel zugferdConformanceLevel;
+
+    public ZugferdDocument(PdfWriter writer, ZugferdConformanceLevel zugferdConformanceLevel,
+                           PdfAConformanceLevel pdfaConformanceLevel, PdfOutputIntent outputIntent) {
         super(writer, pdfaConformanceLevel, outputIntent);
-    }
         String licenseKeyClassName = "com.itextpdf.licensekey.LicenseKey";
         String licenseKeyProductClassName = "com.itextpdf.licensekey.LicenseKeyProduct";
         String licenseKeyFeatureClassName = "com.itextpdf.licensekey.LicenseKeyProductFeature";
@@ -103,24 +107,37 @@ public class ZugferdDocument extends PdfADocument {
                 throw new RuntimeException(e.getCause());
             }
         }
+        this.zugferdConformanceLevel = zugferdConformanceLevel;
+    }
 
-    public ZugferdDocument(PdfWriter writer, PdfOutputIntent outputIntent) {
-        super(writer, PdfAConformanceLevel.PDF_A_3B, outputIntent);
+    public ZugferdDocument(PdfWriter writer, ZugferdConformanceLevel zugferdConformanceLevel, PdfOutputIntent outputIntent) {
+        this(writer, zugferdConformanceLevel, PdfAConformanceLevel.PDF_A_3B, outputIntent);
         Logger logger = LoggerFactory.getLogger(ZugferdDocument.class);
         logger.warn(ZugferdLogMessageConstant.WRONG_OR_NO_CONFORMANCE_LEVEL);
     }
 
-    @Override
-    public void createXmpMetadata() throws XMPException {
+    public ZugferdDocument(PdfWriter writer, PdfAConformanceLevel pdfaConformanceLevel, PdfOutputIntent outputIntent) {
+        this(writer, ZugferdConformanceLevel.ZUGFeRDBasic, pdfaConformanceLevel, outputIntent);
         Logger logger = LoggerFactory.getLogger(ZugferdDocument.class);
         logger.warn(ZugferdLogMessageConstant.NO_ZUGFERD_PROFILE_TYPE_SPECIFIED);
-        createXmpMetadata(checker.getConformanceLevel(), ZugferdConformanceLevel.ZUGFeRDBasic);
     }
 
-    public void createXmpMetadata(PdfAConformanceLevel pdfaConformanceLevel, ZugferdConformanceLevel zugferdConformanceLevel) throws XMPException {
-        super.createXmpMetadata(pdfaConformanceLevel);
-        addZugferdRdfDescription(zugferdConformanceLevel);
-        System.out.println();
+    public ZugferdDocument(PdfWriter writer, PdfOutputIntent outputIntent) {
+        this(writer, ZugferdConformanceLevel.ZUGFeRDBasic, PdfAConformanceLevel.PDF_A_3B, outputIntent);
+        Logger logger = LoggerFactory.getLogger(ZugferdDocument.class);
+        logger.warn(ZugferdLogMessageConstant.WRONG_OR_NO_CONFORMANCE_LEVEL);
+        logger.warn(ZugferdLogMessageConstant.NO_ZUGFERD_PROFILE_TYPE_SPECIFIED);
+    }
+
+    @Override
+    protected void updateXmpMetadata() {
+        super.updateXmpMetadata();
+        try {
+            addZugferdRdfDescription(zugferdConformanceLevel);
+        } catch (XMPException e) {
+            Logger logger = LoggerFactory.getLogger(ZugferdDocument.class);
+            logger.error(LogMessageConstant.EXCEPTION_WHILE_UPDATING_XMPMETADATA, e);
+        }
     }
 
     protected void addZugferdRdfDescription(ZugferdConformanceLevel zugferdConformanceLevel) throws XMPException {
