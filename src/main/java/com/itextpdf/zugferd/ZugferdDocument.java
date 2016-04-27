@@ -42,14 +42,17 @@
 package com.itextpdf.zugferd;
 
 
+import com.itextpdf.kernel.log.Counter;
+import com.itextpdf.kernel.log.CounterFactory;
+import com.itextpdf.kernel.pdf.PdfAConformanceLevel;
 import com.itextpdf.kernel.pdf.PdfOutputIntent;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.kernel.xmp.XMPException;
 import com.itextpdf.kernel.xmp.XMPMeta;
 import com.itextpdf.kernel.xmp.XMPMetaFactory;
 import com.itextpdf.kernel.xmp.XMPUtils;
-import com.itextpdf.kernel.pdf.PdfAConformanceLevel;
 import com.itextpdf.pdfa.PdfADocument;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -144,6 +147,11 @@ public class ZugferdDocument extends PdfADocument {
         } else {
             checker = new ZugferdChecker(conformanceLevel);
         }
+    }
+
+    @Override
+    protected Counter getCounter() {
+        return CounterFactory.getCounter(ZugferdDocument.class);
     }
 
     private String getZugferdExtension(ZugferdConformanceLevel conformanceLevel) {
