@@ -5,28 +5,47 @@
     <parent>
         <groupId>com.itextpdf</groupId>
         <artifactId>root</artifactId>
-        <version>7.0.0-SNAPSHOT</version>
+        <version>7.0.0</version>
+        <relativePath />
     </parent>
 
     <artifactId>zugferd</artifactId>
-    <name>iText 7 - zugferd</name>
+    <version>1.0.0</version>
+    <name>pdfInvoice</name>
     <url>http://itextpdf.com/</url>
+
+    <properties>
+        <itext.version>7.0.0</itext.version>
+        <licensekey.version>2.0.0</licensekey.version>
+    </properties>
 
     <dependencies>
         <dependency>
             <groupId>com.itextpdf</groupId>
             <artifactId>io</artifactId>
-            <version>${project.version}</version>
+            <version>${itext.version}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.itextpdf</groupId>
             <artifactId>pdfa</artifactId>
-            <version>${project.version}</version>
+            <version>${itext.version}</version>
             <scope>compile</scope>
         </dependency>
-
     </dependencies>
+
+    <repositories>
+        <repository>
+            <id>itext-snapshot</id>
+            <name>iText Repository - snapshots</name>
+            <url>https://repo.itextsupport.com/snapshot</url>
+        </repository>
+        <repository>
+            <id>itext-releases</id>
+            <name>iText Repository - releases</name>
+            <url>https://repo.itextsupport.com/releases</url>
+        </repository>
+    </repositories>
 
     <build>
         <plugins>
@@ -52,6 +71,16 @@
                 <artifactId>pitest-maven</artifactId>
                 <configuration>
                     <skip>true</skip>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.0.0</version>
+                <configuration>
+                    <excludes>
+                        <exclude>**</exclude>
+                    </excludes>
                 </configuration>
             </plugin>
         </plugins>
