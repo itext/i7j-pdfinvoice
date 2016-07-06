@@ -57,6 +57,19 @@ public class DateFormatCode extends CodeValidation {
     public static final String YYYYMMDD = "102";
     public static final String YYYYMM = "610";
     public static final String YYYYWW = "616";
+
+    public static SimpleDateFormat getDateFormat(String format) throws InvalidCodeException {
+        if (YYYYMMDD.equals(format)) {
+            return new SimpleDateFormat("yyyyMMdd");
+        }
+        else if (YYYYMM.equals(format)) {
+            return new SimpleDateFormat("yyyyMM");
+        }
+        else if (YYYYWW.equals(format)) {
+            return new SimpleDateFormat("yyyyww");
+        }
+        throw new InvalidCodeException(format, "date format");
+    }
     
     public boolean isValid(String format) {
         return format.equals(YYYYMMDD)
@@ -71,17 +84,5 @@ public class DateFormatCode extends CodeValidation {
     public Date convertToDate(String d, String format) throws InvalidCodeException, ParseException {
         return getDateFormat(format).parse(d);
     }
-    
-    public static SimpleDateFormat getDateFormat(String format) throws InvalidCodeException {
-        if (YYYYMMDD.equals(format)) {
-            return new SimpleDateFormat("yyyyMMdd");
-        }
-        else if (YYYYMM.equals(format)) {
-            return new SimpleDateFormat("yyyyMM");
-        }
-        else if (YYYYWW.equals(format)) {
-            return new SimpleDateFormat("yyyyww");
-        }
-        throw new InvalidCodeException(format, "date format");
-    }
+
 }

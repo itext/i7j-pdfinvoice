@@ -45,7 +45,7 @@ package com.itextpdf.zugferd.validation.extended;
 
 import com.itextpdf.zugferd.validation.CodeValidation;
 
-/**=
+/**
  * Series of codes that can be used for the product classification system.
  * These codes are used only in the context of the Extended profile.
  */
