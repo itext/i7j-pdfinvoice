@@ -41,40 +41,46 @@
     address: sales@itextpdf.com */
 package com.itextpdf.zugferd;
 
-import com.itextpdf.zugferd.validation.NumberChecker;
-import com.itextpdf.zugferd.validation.basic.*;
-import com.itextpdf.zugferd.validation.comfort.FreeTextSubjectCode;
-import com.itextpdf.zugferd.validation.comfort.GlobalIdentifierCode;
-import com.itextpdf.zugferd.validation.comfort.PaymentMeansCode;
-import com.itextpdf.zugferd.validation.comfort.TaxCategoryCode;
 import com.itextpdf.zugferd.exceptions.DataIncompleteException;
 import com.itextpdf.zugferd.exceptions.InvalidCodeException;
 import com.itextpdf.zugferd.profiles.IBasicProfile;
 import com.itextpdf.zugferd.profiles.IComfortProfile;
-import org.w3c.dom.*;
-import org.xml.sax.SAXException;
+import com.itextpdf.zugferd.validation.NumberChecker;
+import com.itextpdf.zugferd.validation.basic.CountryCode;
+import com.itextpdf.zugferd.validation.basic.CurrencyCode;
+import com.itextpdf.zugferd.validation.basic.DateFormatCode;
+import com.itextpdf.zugferd.validation.basic.DocumentTypeCode;
+import com.itextpdf.zugferd.validation.basic.MeasurementUnitCode;
+import com.itextpdf.zugferd.validation.basic.TaxIDTypeCode;
+import com.itextpdf.zugferd.validation.basic.TaxTypeCode;
+import com.itextpdf.zugferd.validation.comfort.FreeTextSubjectCode;
+import com.itextpdf.zugferd.validation.comfort.GlobalIdentifierCode;
+import com.itextpdf.zugferd.validation.comfort.PaymentMeansCode;
+import com.itextpdf.zugferd.validation.comfort.TaxCategoryCode;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.*;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Result;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
-import java.lang.reflect.Array;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
-import com.itextpdf.zugferd.ZugferdProductInfo;
-import com.itextpdf.kernel.Version;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
-/**
- * @author iText
- */
 public class InvoiceDOM {
     // code checkers
     public static final CountryCode COUNTRY_CODE = new CountryCode();
@@ -91,6 +97,12 @@ public class InvoiceDOM {
 
     // The DOM document
     protected final Document doc;
+
+import java.lang.reflect.Array;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
+import com.itextpdf.zugferd.ZugferdProductInfo;
+import com.itextpdf.kernel.Version;
 
     /**
      * Creates an object that will import data into an XML template.
