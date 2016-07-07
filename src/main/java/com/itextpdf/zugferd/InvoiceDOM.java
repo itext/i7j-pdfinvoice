@@ -800,7 +800,7 @@ import com.itextpdf.kernel.Version;
      */
     protected void importSpecifiedTradeAllowanceCharge(Element parent, IComfortProfile data)
             throws InvalidCodeException {
-        Boolean[] indicator = data.getSpecifiedTradeAllowanceChargeIndicator();
+        boolean[] indicator = data.getSpecifiedTradeAllowanceChargeIndicator();
         String[] actualAmount = data.getSpecifiedTradeAllowanceChargeActualAmount();
         String[] actualAmountCurr = data.getSpecifiedTradeAllowanceChargeActualAmountCurrency();
         String[] reason = data.getSpecifiedTradeAllowanceChargeReason();
@@ -966,7 +966,7 @@ import com.itextpdf.kernel.Version;
         String[] grossPriceChargeAmountCurrencyID = data.getLineItemGrossPriceChargeAmountCurrencyID();
         String[] grossPriceBasisQuantity = data.getLineItemGrossPriceBasisQuantity();
         String[] grossPriceBasisQuantityCode = data.getLineItemGrossPriceBasisQuantityCode();
-        Boolean[][] grossPriceTradeAllowanceChargeIndicator = data.getLineItemGrossPriceTradeAllowanceChargeIndicator();
+        boolean[][] grossPriceTradeAllowanceChargeIndicator = data.getLineItemGrossPriceTradeAllowanceChargeIndicator();
         String[][] grossPriceTradeAllowanceChargeActualAmount = data.getLineItemGrossPriceTradeAllowanceChargeActualAmount();
         String[][] grossPriceTradeAllowanceChargeActualAmountCurrencyID = data.getLineItemGrossPriceTradeAllowanceChargeActualAmountCurrencyID();
         String[][] grossPriceTradeAllowanceChargeReason = data.getLineItemGrossPriceTradeAllowanceChargeReason();
@@ -1051,7 +1051,7 @@ import com.itextpdf.kernel.Version;
                                          String lineID, String[][] note,
                                          String grossPriceChargeAmount, String grossPriceChargeAmountCurrencyID,
                                          String grossPriceBasisQuantity, String grossPriceBasisQuantityCode,
-                                         Boolean[] grossPriceTradeAllowanceChargeIndicator,
+                                         boolean[] grossPriceTradeAllowanceChargeIndicator,
                                          String[] grossPriceTradeAllowanceChargeActualAmount,
                                          String[] grossPriceTradeAllowanceChargeActualAmountCurrencyID,
                                          String[] grossPriceTradeAllowanceChargeReason,

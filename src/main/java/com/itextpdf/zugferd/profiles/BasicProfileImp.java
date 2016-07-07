@@ -486,8 +486,12 @@ public class BasicProfileImp implements IBasicProfile {
         return (String[]) list.toArray(new String[list.size()]);
     }
     
-    protected Boolean[] to1DArrayB(List<Boolean> list) {
-        return (Boolean[]) list.toArray(new Boolean[list.size()]);
+    protected boolean[] to1DArrayB(List<Boolean> list) {
+        boolean[] b = new boolean[list.size()];
+        for (int i = 0; i < list.size(); i++) {
+            b[i] = list.get(i);
+        }
+        return b;
     }
     
     protected String[][] to2DArray(List<String[]> list) {
@@ -499,9 +503,9 @@ public class BasicProfileImp implements IBasicProfile {
         return array;
     }
     
-    protected Boolean[][] to2DArrayB(List<Boolean[]> list) {
+    protected boolean[][] to2DArrayB(List<boolean[]> list) {
         int n = list.size();
-        Boolean[][] array = new Boolean[n][];
+        boolean[][] array = new boolean[n][];
         for (int i = 0; i < n; i++) {
             array[i] = list.get(i);
         }

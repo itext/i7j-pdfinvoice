@@ -124,7 +124,7 @@ public class ComfortProfileImp extends BasicProfileImp implements IComfortProfil
     protected List<String> lineItemGrossPriceChargeAmountCurrencyID = new ArrayList<String>();
     protected List<String> lineItemGrossPriceBasisQuantity = new ArrayList<String>();
     protected List<String> lineItemGrossPriceBasisQuantityCode = new ArrayList<String>();
-    protected List<Boolean[]> lineItemGrossPriceTradeAllowanceChargeIndicator = new ArrayList<Boolean[]>();
+    protected List<boolean[]> lineItemGrossPriceTradeAllowanceChargeIndicator = new ArrayList<boolean[]>();
     protected List<String[]> lineItemGrossPriceTradeAllowanceChargeActualAmount = new ArrayList<String[]>();
     protected List<String[]> lineItemGrossPriceTradeAllowanceChargeActualAmountCurrencyID = new ArrayList<String[]>();
     protected List<String[]> lineItemGrossPriceTradeAllowanceChargeReason = new ArrayList<String[]>();
@@ -319,7 +319,7 @@ public class ComfortProfileImp extends BasicProfileImp implements IComfortProfil
         return billingEndDateTimeFormat;
     }
     
-    public Boolean[] getSpecifiedTradeAllowanceChargeIndicator() {
+    public boolean[] getSpecifiedTradeAllowanceChargeIndicator() {
         return to1DArrayB(tradeAllowanceChargeIndicator);
     }
     
@@ -406,7 +406,7 @@ public class ComfortProfileImp extends BasicProfileImp implements IComfortProfil
     public String[] getLineItemGrossPriceBasisQuantityCode() {
         return to1DArray(lineItemGrossPriceBasisQuantityCode);
     }
-    public Boolean[][] getLineItemGrossPriceTradeAllowanceChargeIndicator() {
+    public boolean[][] getLineItemGrossPriceTradeAllowanceChargeIndicator() {
         return to2DArrayB(lineItemGrossPriceTradeAllowanceChargeIndicator);
     }
     public String[][] getLineItemGrossPriceTradeAllowanceChargeActualAmount() {
@@ -670,7 +670,7 @@ public class ComfortProfileImp extends BasicProfileImp implements IComfortProfil
     public void addIncludedSupplyChainTradeLineItem(String id, String[][] notes,
             String grossPriceChargeAmount, String grossPriceChargeAmountCurrencyID,
             String grossPriceBasisQuantity, String grossPriceBasisQuantityCode,
-            Boolean[] grossPriceTradeAllowanceChargeIndicator,
+            boolean[] grossPriceTradeAllowanceChargeIndicator,
             String[] grossPriceTradeAllowanceChargeActualAmount,
             String[] grossPriceTradeAllowanceChargeActualAmountCurrencyID,
             String[] grossPriceTradeAllowanceChargeReason,
