@@ -41,6 +41,7 @@
     address: sales@itextpdf.com */
 package com.itextpdf.zugferd;
 
+import com.itextpdf.io.util.ResourceUtil;
 import com.itextpdf.zugferd.exceptions.DataIncompleteException;
 import com.itextpdf.zugferd.exceptions.InvalidCodeException;
 import com.itextpdf.zugferd.profiles.IBasicProfile;
@@ -59,7 +60,6 @@ import com.itextpdf.zugferd.validation.comfort.PaymentMeansCode;
 import com.itextpdf.zugferd.validation.comfort.TaxCategoryCode;
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
@@ -156,7 +156,7 @@ import com.itextpdf.kernel.Version;
         // loading the XML template
         DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-        InputStream is = new FileInputStream("./src/test/resources/xml/zugferd-template.xml");
+        InputStream is = ResourceUtil.getResourceStream("com/itextpdf/zugferd/xml/zugferd-template.xml");
         doc = docBuilder.parse(is);
         // importing the data
         importData(doc, data);
