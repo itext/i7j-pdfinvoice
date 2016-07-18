@@ -178,8 +178,6 @@ public class InvoiceDOM {
      */
     private void importData(Document doc, IBasicProfile data)
             throws DataIncompleteException, InvalidCodeException {
-        if (!data.getTestIndicator()) throw new InvalidCodeException("false",
-                "the test indicator: the ZUGFeRD functionality is still in beta; contact sales@itextpdf.com for more info.");
         importSpecifiedExchangedDocumentContext(
                 (Element) doc.getElementsByTagName("rsm:SpecifiedExchangedDocumentContext").item(0), data);
         importHeaderExchangedDocument(

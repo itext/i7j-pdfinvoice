@@ -55,7 +55,7 @@ import java.util.List;
 public class BasicProfileImp implements IBasicProfile {
     
     // member-variables storing all the data
-    protected boolean test = true;
+    protected boolean test;
     protected String id;
     protected String name;
     protected String typeCode;
@@ -111,6 +111,17 @@ public class BasicProfileImp implements IBasicProfile {
     protected List<String> lineItemBilledQuantity = new ArrayList<String>();
     protected List<String> lineItemBilledQuantityUnitCode = new ArrayList<String>();
     protected List<String> lineItemSpecifiedTradeProductName = new ArrayList<String>();
+
+    /**
+     * Creates a new {@link BasicProfileImp} instance
+     *
+     * @param testIndicator the parameter that determines whether a test invoice is going to be created.
+     *                      The test indicator can be used when implementing a newly developed system. It is to mark the
+     *                      invoice as a "test" and thus not leading to vat issues.
+     */
+    public BasicProfileImp(boolean testIndicator) {
+        this.test = testIndicator;
+    }
     
     // implementation of the getters
     public boolean getTestIndicator() {

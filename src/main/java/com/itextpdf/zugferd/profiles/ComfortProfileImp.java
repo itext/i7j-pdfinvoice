@@ -143,7 +143,18 @@ public class ComfortProfileImp extends BasicProfileImp implements IComfortProfil
     protected List<String> lineItemSpecifiedTradeProductSellerAssignedID = new ArrayList<String>();
     protected List<String> lineItemSpecifiedTradeProductBuyerAssignedID = new ArrayList<String>();
     protected List<String> lineItemSpecifiedTradeProductDescription = new ArrayList<String>();
-            
+
+    /**
+     * Creates a new {@link ComfortProfileImp} instance
+     *
+     * @param testIndicator the parameter that determines whether a test invoice is going to be created.
+     *                      The test indicator can be used when implementing a newly developed system. It is to mark the
+     *                      invoice as a "test" and thus not leading to vat issues.
+     */
+    public ComfortProfileImp(boolean testIndicator) {
+        super(testIndicator);
+    }
+
     public String[] getNotesCodes() {
         return to1DArray(notesCodes);
     }
