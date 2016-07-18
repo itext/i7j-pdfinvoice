@@ -52,18 +52,22 @@ import com.itextpdf.kernel.xmp.XMPException;
 import com.itextpdf.kernel.xmp.XMPMeta;
 import com.itextpdf.kernel.xmp.XMPMetaFactory;
 import com.itextpdf.kernel.xmp.XMPUtils;
-import com.itextpdf.pdfa.PdfADocument;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import com.itextpdf.zugferd.ZugferdProductInfo;
 import com.itextpdf.kernel.Version;
 
+import com.itextpdf.pdfa.PdfADocument;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class ZugferdDocument extends PdfADocument {
+
+    private static final String PRODUCT_NAME = "pdfInvoice";
+    private static final int PRODUCT_MAJOR = 1;
+    private static final int PRODUCT_MINOR = 0;
 
     private static final long serialVersionUID = 1737898087328462098L;
 

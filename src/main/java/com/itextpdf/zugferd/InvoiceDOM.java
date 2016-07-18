@@ -42,6 +42,12 @@
 package com.itextpdf.zugferd;
 
 import com.itextpdf.io.util.ResourceUtil;
+import java.lang.reflect.Array;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
+import com.itextpdf.zugferd.ZugferdProductInfo;
+import com.itextpdf.kernel.Version;
+
 import com.itextpdf.zugferd.exceptions.DataIncompleteException;
 import com.itextpdf.zugferd.exceptions.InvalidCodeException;
 import com.itextpdf.zugferd.profiles.IBasicProfile;
@@ -82,6 +88,10 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 public class InvoiceDOM {
+    private static final String PRODUCT_NAME = "pdfInvoice";
+    private static final int PRODUCT_MAJOR = 1;
+    private static final int PRODUCT_MINOR = 0;
+
     // code checkers
     public static final CountryCode COUNTRY_CODE = new CountryCode();
     public static final CurrencyCode CURR_CODE = new CurrencyCode();
@@ -97,12 +107,6 @@ public class InvoiceDOM {
 
     // The DOM document
     protected final Document doc;
-
-import java.lang.reflect.Array;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
-import com.itextpdf.zugferd.ZugferdProductInfo;
-import com.itextpdf.kernel.Version;
 
     /**
      * Creates an object that will import data into an XML template.
@@ -153,6 +157,7 @@ import com.itextpdf.kernel.Version;
                 throw new RuntimeException(e.getCause());
             }
         }
+
         // loading the XML template
         DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
