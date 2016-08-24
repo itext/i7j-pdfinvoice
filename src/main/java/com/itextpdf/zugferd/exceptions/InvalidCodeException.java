@@ -49,6 +49,7 @@ import java.text.MessageFormat;
  * "S" (which is a Tax Category code) when a Tax Type code is expected.
  */
 public class InvalidCodeException extends Exception {
+
     private static final long serialVersionUID = 8338708023399979908L;
 
     public InvalidCodeException(String code, String context) {

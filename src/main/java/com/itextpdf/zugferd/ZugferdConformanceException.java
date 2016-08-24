@@ -43,15 +43,30 @@ package com.itextpdf.zugferd;
 
 import com.itextpdf.pdfa.PdfAConformanceException;
 
+/**
+ * ZUGFeRD conformance exception
+ */
 public class ZugferdConformanceException extends PdfAConformanceException {
+
     private static final long serialVersionUID = 6560654111760843272L;
 
     public static final String AFRelationshipValueShallbeAlternative = "afrelationship.value.shall.be.alternative";
 
+    /**
+     * Creates ZUGFeRD conformance exception.
+     *
+     * @param message an exception message.
+     */
     public ZugferdConformanceException(String message) {
         super(message);
     }
 
+    /**
+     * Creates ZUGFeRD conformance exception.
+     *
+     * @param message the error message
+     * @param object  an object
+     */
     public ZugferdConformanceException(String message, Object object) {
         super(message, object);
     }
