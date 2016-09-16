@@ -41,41 +41,57 @@
     address: sales@itextpdf.com */
 package com.itextpdf.zugferd;
 
-import com.itextpdf.zugferd.validation.NumberChecker;
-import com.itextpdf.zugferd.validation.basic.*;
-import com.itextpdf.zugferd.validation.comfort.FreeTextSubjectCode;
-import com.itextpdf.zugferd.validation.comfort.GlobalIdentifierCode;
-import com.itextpdf.zugferd.validation.comfort.PaymentMeansCode;
-import com.itextpdf.zugferd.validation.comfort.TaxCategoryCode;
-import com.itextpdf.zugferd.exceptions.DataIncompleteException;
-import com.itextpdf.zugferd.exceptions.InvalidCodeException;
-import com.itextpdf.zugferd.profiles.IBasicProfile;
-import com.itextpdf.zugferd.profiles.IComfortProfile;
-import org.w3c.dom.*;
-import org.xml.sax.SAXException;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.*;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Date;
-
+import com.itextpdf.io.util.ResourceUtil;
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import com.itextpdf.zugferd.ZugferdProductInfo;
 import com.itextpdf.kernel.Version;
 
-/**
- * @author iText
- */
+import com.itextpdf.zugferd.exceptions.DataIncompleteException;
+import com.itextpdf.zugferd.exceptions.InvalidCodeException;
+import com.itextpdf.zugferd.profiles.IBasicProfile;
+import com.itextpdf.zugferd.profiles.IComfortProfile;
+import com.itextpdf.zugferd.validation.NumberChecker;
+import com.itextpdf.zugferd.validation.basic.CountryCode;
+import com.itextpdf.zugferd.validation.basic.CurrencyCode;
+import com.itextpdf.zugferd.validation.basic.DateFormatCode;
+import com.itextpdf.zugferd.validation.basic.DocumentTypeCode;
+import com.itextpdf.zugferd.validation.basic.MeasurementUnitCode;
+import com.itextpdf.zugferd.validation.basic.TaxIDTypeCode;
+import com.itextpdf.zugferd.validation.basic.TaxTypeCode;
+import com.itextpdf.zugferd.validation.comfort.FreeTextSubjectCode;
+import com.itextpdf.zugferd.validation.comfort.GlobalIdentifierCode;
+import com.itextpdf.zugferd.validation.comfort.PaymentMeansCode;
+import com.itextpdf.zugferd.validation.comfort.TaxCategoryCode;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Date;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Result;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+
 public class InvoiceDOM {
+    private static final String PRODUCT_NAME = "pdfInvoice";
+    private static final int PRODUCT_MAJOR = 1;
+    private static final int PRODUCT_MINOR = 0;
+
     // code checkers
     public static final CountryCode COUNTRY_CODE = new CountryCode();
     public static final CurrencyCode CURR_CODE = new CurrencyCode();
@@ -141,10 +157,11 @@ public class InvoiceDOM {
                 throw new RuntimeException(e.getCause());
             }
         }
+
         // loading the XML template
         DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-        InputStream is = new FileInputStream("./src/test/resources/xml/zugferd-template.xml");
+        InputStream is = ResourceUtil.getResourceStream("com/itextpdf/zugferd/xml/zugferd-template.xml");
         doc = docBuilder.parse(is);
         // importing the data
         importData(doc, data);
@@ -161,8 +178,6 @@ public class InvoiceDOM {
      */
     private void importData(Document doc, IBasicProfile data)
             throws DataIncompleteException, InvalidCodeException {
-        if (!data.getTestIndicator()) throw new InvalidCodeException("false",
-                "the test indicator: the ZUGFeRD functionality is still in beta; contact sales@itextpdf.com for more info.");
         importSpecifiedExchangedDocumentContext(
                 (Element) doc.getElementsByTagName("rsm:SpecifiedExchangedDocumentContext").item(0), data);
         importHeaderExchangedDocument(
@@ -788,7 +803,7 @@ public class InvoiceDOM {
      */
     protected void importSpecifiedTradeAllowanceCharge(Element parent, IComfortProfile data)
             throws InvalidCodeException {
-        Boolean[] indicator = data.getSpecifiedTradeAllowanceChargeIndicator();
+        boolean[] indicator = data.getSpecifiedTradeAllowanceChargeIndicator();
         String[] actualAmount = data.getSpecifiedTradeAllowanceChargeActualAmount();
         String[] actualAmountCurr = data.getSpecifiedTradeAllowanceChargeActualAmountCurrency();
         String[] reason = data.getSpecifiedTradeAllowanceChargeReason();
@@ -954,7 +969,7 @@ public class InvoiceDOM {
         String[] grossPriceChargeAmountCurrencyID = data.getLineItemGrossPriceChargeAmountCurrencyID();
         String[] grossPriceBasisQuantity = data.getLineItemGrossPriceBasisQuantity();
         String[] grossPriceBasisQuantityCode = data.getLineItemGrossPriceBasisQuantityCode();
-        Boolean[][] grossPriceTradeAllowanceChargeIndicator = data.getLineItemGrossPriceTradeAllowanceChargeIndicator();
+        boolean[][] grossPriceTradeAllowanceChargeIndicator = data.getLineItemGrossPriceTradeAllowanceChargeIndicator();
         String[][] grossPriceTradeAllowanceChargeActualAmount = data.getLineItemGrossPriceTradeAllowanceChargeActualAmount();
         String[][] grossPriceTradeAllowanceChargeActualAmountCurrencyID = data.getLineItemGrossPriceTradeAllowanceChargeActualAmountCurrencyID();
         String[][] grossPriceTradeAllowanceChargeReason = data.getLineItemGrossPriceTradeAllowanceChargeReason();
@@ -1039,7 +1054,7 @@ public class InvoiceDOM {
                                          String lineID, String[][] note,
                                          String grossPriceChargeAmount, String grossPriceChargeAmountCurrencyID,
                                          String grossPriceBasisQuantity, String grossPriceBasisQuantityCode,
-                                         Boolean[] grossPriceTradeAllowanceChargeIndicator,
+                                         boolean[] grossPriceTradeAllowanceChargeIndicator,
                                          String[] grossPriceTradeAllowanceChargeActualAmount,
                                          String[] grossPriceTradeAllowanceChargeActualAmountCurrencyID,
                                          String[] grossPriceTradeAllowanceChargeReason,
@@ -1214,6 +1229,7 @@ public class InvoiceDOM {
         removeEmptyNodes(doc);
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
         Transformer transformer = transformerFactory.newTransformer();
+        transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
         transformer.setOutputProperty(OutputKeys.METHOD, "xml");
         transformer.setOutputProperty(OutputKeys.INDENT, "yes");
         transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");

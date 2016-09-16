@@ -95,7 +95,7 @@ public interface IComfortProfile extends IBasicProfile {
     String getBillingStartDateTimeFormat();
     Date getBillingEndDateTime();
     String getBillingEndDateTimeFormat();
-    Boolean[] getSpecifiedTradeAllowanceChargeIndicator();
+    boolean[] getSpecifiedTradeAllowanceChargeIndicator();
     String[] getSpecifiedTradeAllowanceChargeActualAmount();
     String[] getSpecifiedTradeAllowanceChargeActualAmountCurrency();
     String[] getSpecifiedTradeAllowanceChargeReason();
@@ -121,7 +121,7 @@ public interface IComfortProfile extends IBasicProfile {
     String[] getLineItemGrossPriceChargeAmountCurrencyID();
     String[] getLineItemGrossPriceBasisQuantity();
     String[] getLineItemGrossPriceBasisQuantityCode();
-    Boolean[][] getLineItemGrossPriceTradeAllowanceChargeIndicator();
+    boolean[][] getLineItemGrossPriceTradeAllowanceChargeIndicator();
     String[][] getLineItemGrossPriceTradeAllowanceChargeActualAmount();
     String[][] getLineItemGrossPriceTradeAllowanceChargeActualAmountCurrencyID();
     String[][] getLineItemGrossPriceTradeAllowanceChargeReason();

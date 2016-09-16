@@ -5,18 +5,17 @@
     <parent>
         <groupId>com.itextpdf</groupId>
         <artifactId>root</artifactId>
-        <version>7.0.0</version>
+        <version>7.0.1</version>
         <relativePath />
     </parent>
 
     <artifactId>zugferd</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <name>pdfInvoice</name>
     <url>http://itextpdf.com/</url>
 
     <properties>
-        <itext.version>7.0.0</itext.version>
-        <licensekey.version>2.0.0</licensekey.version>
+        <itext.version>7.0.1</itext.version>
     </properties>
 
     <dependencies>

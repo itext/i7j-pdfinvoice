@@ -66,16 +66,6 @@ public class FreeTextSubjectCode extends CodeValidation {
         this.level = level;
     }
     
-    public boolean isValid(String code) {
-        switch(level) {
-            case HEADER:
-                return isHeaderLevel(code);
-            case LINE:
-                return isLineLevel(code);
-        }
-        return true;
-    }
-    
     public static boolean isHeaderLevel(String code) {
         return code.equals(REGULATORY_INFORMATION)
             || code.equals(PRICE_CONDITIONS)
@@ -87,5 +77,15 @@ public class FreeTextSubjectCode extends CodeValidation {
         return code.equals(PRICE_CALCULATION_FORMULA)
             || code.equals(PRODUCT_INFORMATION)
             || code.equals(CERTIFICATION_STATEMENTS);
+    }
+
+    public boolean isValid(String code) {
+        switch(level) {
+            case HEADER:
+                return isHeaderLevel(code);
+            case LINE:
+                return isLineLevel(code);
+        }
+        return true;
     }
 }

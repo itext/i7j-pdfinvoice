@@ -41,12 +41,16 @@
     address: sales@itextpdf.com */
 package com.itextpdf.zugferd.exceptions;
 
+import java.text.MessageFormat;
+
 /**
  * This exception is thrown when you try to create a ZUGFeRD XML file
  * that doesn't contain all the required data.
  */
 public class DataIncompleteException extends Exception {
+    private static final long serialVersionUID = -6083861287475694673L;
+
     public DataIncompleteException(String tag) {
-        super(String.format("The data is missing: %s", tag));
+        super(MessageFormat.format("The data is missing: {0}", tag));
     }
 }

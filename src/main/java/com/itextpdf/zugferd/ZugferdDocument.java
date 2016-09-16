@@ -52,18 +52,22 @@ import com.itextpdf.kernel.xmp.XMPException;
 import com.itextpdf.kernel.xmp.XMPMeta;
 import com.itextpdf.kernel.xmp.XMPMetaFactory;
 import com.itextpdf.kernel.xmp.XMPUtils;
-import com.itextpdf.pdfa.PdfADocument;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import com.itextpdf.zugferd.ZugferdProductInfo;
 import com.itextpdf.kernel.Version;
 
+import com.itextpdf.pdfa.PdfADocument;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class ZugferdDocument extends PdfADocument {
+
+    private static final String PRODUCT_NAME = "pdfInvoice";
+    private static final int PRODUCT_MAJOR = 1;
+    private static final int PRODUCT_MINOR = 0;
 
     private static final long serialVersionUID = 1737898087328462098L;
 
@@ -130,29 +134,14 @@ public class ZugferdDocument extends PdfADocument {
     }
 
     @Override
-    protected void updateXmpMetadata() {
-        super.updateXmpMetadata();
+    protected void addCustomMetadataExtensions(XMPMeta xmpMeta) {
+        super.addCustomMetadataExtensions(xmpMeta);
         try {
-            addZugferdRdfDescription(zugferdConformanceLevel);
+            addZugferdRdfDescription(xmpMeta, zugferdConformanceLevel);
         } catch (XMPException e) {
             Logger logger = LoggerFactory.getLogger(ZugferdDocument.class);
             logger.error(LogMessageConstant.EXCEPTION_WHILE_UPDATING_XMPMETADATA, e);
         }
-    }
-
-    protected void addZugferdRdfDescription(ZugferdConformanceLevel zugferdConformanceLevel) throws XMPException {
-        XMPMeta xmpMeta = XMPMetaFactory.parseFromBuffer(getXmpMetadata());
-        switch (zugferdConformanceLevel) {
-            case ZUGFeRDBasic:
-            case ZUGFeRDComfort:
-            case ZUGFeRDExtended:
-                XMPMeta taggedExtensionMetaComfort = XMPMetaFactory.parseFromString(getZugferdExtension(zugferdConformanceLevel));
-                XMPUtils.appendProperties(taggedExtensionMetaComfort, xmpMeta, true, false);
-                break;
-            default:
-                break;
-        }
-        setXmpMetadata(xmpMeta);
     }
 
     @Override
@@ -169,6 +158,19 @@ public class ZugferdDocument extends PdfADocument {
     @Override
     protected Counter getCounter() {
         return CounterFactory.getCounter(ZugferdDocument.class);
+    }
+
+    private void addZugferdRdfDescription(XMPMeta xmpMeta, ZugferdConformanceLevel zugferdConformanceLevel) throws XMPException {
+        switch (zugferdConformanceLevel) {
+            case ZUGFeRDBasic:
+            case ZUGFeRDComfort:
+            case ZUGFeRDExtended:
+                XMPMeta taggedExtensionMetaComfort = XMPMetaFactory.parseFromString(getZugferdExtension(zugferdConformanceLevel));
+                XMPUtils.appendProperties(taggedExtensionMetaComfort, xmpMeta, true, false);
+                break;
+            default:
+                break;
+        }
     }
 
     private String getZugferdExtension(ZugferdConformanceLevel conformanceLevel) {

@@ -41,13 +41,18 @@
     address: sales@itextpdf.com */
 package com.itextpdf.zugferd.exceptions;
 
+import java.text.MessageFormat;
+
 /**
  * This exception is thrown when you try to create a ZUGFeRD XML file
  * using data that doesn't have the correct format, e.g. you have entered
  * "S" (which is a Tax Category code) when a Tax Type code is expected.
  */
 public class InvalidCodeException extends Exception {
+
+    private static final long serialVersionUID = 8338708023399979908L;
+
     public InvalidCodeException(String code, String context) {
-        super(String.format("%s is an invalid code for %s", code, context));
+        super(MessageFormat.format("{0} is an invalid code for {1}", code, context));
     }
 }
