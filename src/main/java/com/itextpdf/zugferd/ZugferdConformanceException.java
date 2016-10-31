@@ -50,7 +50,7 @@ public class ZugferdConformanceException extends PdfAConformanceException {
 
     private static final long serialVersionUID = 6560654111760843272L;
 
-    public static final String AFRelationshipValueShallbeAlternative = "afrelationship.value.shall.be.alternative";
+    public static final String AFRelationshipValueShallbeAlternative = "AFRelationship value shall be Alternative";
 
     /**
      * Creates ZUGFeRD conformance exception.
