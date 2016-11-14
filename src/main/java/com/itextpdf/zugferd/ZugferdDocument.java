@@ -73,6 +73,13 @@ public class ZugferdDocument extends PdfADocument {
 
     private ZugferdConformanceLevel zugferdConformanceLevel;
 
+    /**
+     * Create a ZUGFeRD document with the passed ZUGFeRD conformance level, Pdf/A conformance level and output intent using the passed writer.
+     * @param writer Writer to output the pdf with
+     * @param zugferdConformanceLevel ZUGFeRD conformance level, BASIC, COMFORT or EXTENDED
+     * @param pdfaConformanceLevel Pdf/A conformance level
+     * @param outputIntent Pdf/A output intent for the document.
+     */
     public ZugferdDocument(PdfWriter writer, ZugferdConformanceLevel zugferdConformanceLevel,
                            PdfAConformanceLevel pdfaConformanceLevel, PdfOutputIntent outputIntent) {
         super(writer, pdfaConformanceLevel, outputIntent);
@@ -114,18 +121,35 @@ public class ZugferdDocument extends PdfADocument {
         this.zugferdConformanceLevel = zugferdConformanceLevel;
     }
 
+    /**
+     * Create a ZUGFeRD document with the passed ZUGFeRD conformance level and output intent using the passed writer. The PdfA Conformance level will be set to Pdf/A-3B.
+     * @param writer Writer to output the pdf with
+     * @param zugferdConformanceLevel ZUGFeRD conformance level, BASIC, COMFORT or EXTENDED
+     * @param outputIntent Pdf/A output intent for the document
+     */
     public ZugferdDocument(PdfWriter writer, ZugferdConformanceLevel zugferdConformanceLevel, PdfOutputIntent outputIntent) {
         this(writer, zugferdConformanceLevel, PdfAConformanceLevel.PDF_A_3B, outputIntent);
         Logger logger = LoggerFactory.getLogger(ZugferdDocument.class);
         logger.warn(ZugferdLogMessageConstant.WRONG_OR_NO_CONFORMANCE_LEVEL);
     }
 
+    /**
+     * Create a ZUGFeRD document with the passed Pdf/A conformance level and output intent using the passed writer. The ZUGFeRD Conformance level will be set to BASIC.
+     * @param writer Writer to output the pdf with
+     * @param pdfaConformanceLevel Pdf/A conformance level
+     * @param outputIntent Pdf/A output intent for the document
+     */
     public ZugferdDocument(PdfWriter writer, PdfAConformanceLevel pdfaConformanceLevel, PdfOutputIntent outputIntent) {
         this(writer, ZugferdConformanceLevel.ZUGFeRDBasic, pdfaConformanceLevel, outputIntent);
         Logger logger = LoggerFactory.getLogger(ZugferdDocument.class);
         logger.warn(ZugferdLogMessageConstant.NO_ZUGFERD_PROFILE_TYPE_SPECIFIED);
     }
 
+    /**
+     * Create a ZUGFeRD document with the given output intent using given the writer. The ZUGFeRD Conformance level will be set to BASIC and the Pdf/A conformance level will be set to Pdf/A-3B.
+     * @param writer Writer to output the pdf with
+     * @param outputIntent Pdf/A output intent for the document
+     */
     public ZugferdDocument(PdfWriter writer, PdfOutputIntent outputIntent) {
         this(writer, ZugferdConformanceLevel.ZUGFeRDBasic, PdfAConformanceLevel.PDF_A_3B, outputIntent);
         Logger logger = LoggerFactory.getLogger(ZugferdDocument.class);
@@ -149,6 +173,7 @@ public class ZugferdDocument extends PdfADocument {
         if (!conformanceLevel.equals(PdfAConformanceLevel.PDF_A_3B)) {
             Logger logger = LoggerFactory.getLogger(ZugferdDocument.class);
             logger.warn(ZugferdLogMessageConstant.WRONG_OR_NO_CONFORMANCE_LEVEL);
+
             checker = new ZugferdChecker(PdfAConformanceLevel.PDF_A_3B);
         } else {
             checker = new ZugferdChecker(conformanceLevel);
