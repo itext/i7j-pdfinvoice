@@ -41,7 +41,6 @@
     address: sales@itextpdf.com */
 package com.itextpdf.zugferd;
 
-
 import com.itextpdf.kernel.log.Counter;
 import com.itextpdf.kernel.log.CounterFactory;
 import com.itextpdf.kernel.pdf.PdfAConformanceLevel;

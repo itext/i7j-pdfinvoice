@@ -1,46 +1,44 @@
 /*
- * $Id$
- *
- * This file is part of the iText (R) project.
-    Copyright (c) 1998-2017 iText Group NV * Authors: Bruno Lowagie, et al.
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License version 3
- * as published by the Free Software Foundation with the addition of the
- * following permission added to Section 15 as permitted in Section 7(a):
- * FOR ANY PART OF THE COVERED WORK IN WHICH THE COPYRIGHT IS OWNED BY
- * ITEXT GROUP. ITEXT GROUP DISCLAIMS THE WARRANTY OF NON INFRINGEMENT
- * OF THIRD PARTY RIGHTS
- *
- * This program is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
- * or FITNESS FOR A PARTICULAR PURPOSE.
- * See the GNU Affero General Public License for more details.
- * You should have received a copy of the GNU Affero General Public License
- * along with this program; if not, see http://www.gnu.org/licenses or write to
- * the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA, 02110-1301 USA, or download the license from the following URL:
- * http://itextpdf.com/terms-of-use/
- *
- * The interactive user interfaces in modified source and object code versions
- * of this program must display Appropriate Legal Notices, as required under
- * Section 5 of the GNU Affero General Public License.
- *
- * In accordance with Section 7(b) of the GNU Affero General Public License,
- * a covered work must retain the producer line in every PDF that is created
- * or manipulated using iText.
- *
- * You can be released from the requirements of the license by purchasing
- * a commercial license. Buying such a license is mandatory as soon as you
- * develop commercial activities involving the iText software without
- * disclosing the source code of your own applications.
- * These activities include: offering paid services to customers as an ASP,
- * serving PDFs on the fly in a web application, shipping iText with a closed
- * source product.
- *
- * For more information, please contact iText Software Corp. at this
- * address: sales@itextpdf.com
- */
+    This file is part of the iText (R) project.
+    Copyright (c) 1998-2017 iText Group NV
+    Authors: iText Software.
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License version 3
+    as published by the Free Software Foundation with the addition of the
+    following permission added to Section 15 as permitted in Section 7(a):
+    FOR ANY PART OF THE COVERED WORK IN WHICH THE COPYRIGHT IS OWNED BY
+    ITEXT GROUP. ITEXT GROUP DISCLAIMS THE WARRANTY OF NON INFRINGEMENT
+    OF THIRD PARTY RIGHTS
+
+    This program is distributed in the hope that it will be useful, but
+    WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+    or FITNESS FOR A PARTICULAR PURPOSE.
+    See the GNU Affero General Public License for more details.
+    You should have received a copy of the GNU Affero General Public License
+    along with this program; if not, see http://www.gnu.org/licenses or write to
+    the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+    Boston, MA, 02110-1301 USA, or download the license from the following URL:
+    http://itextpdf.com/terms-of-use/
+
+    The interactive user interfaces in modified source and object code versions
+    of this program must display Appropriate Legal Notices, as required under
+    Section 5 of the GNU Affero General Public License.
+
+    In accordance with Section 7(b) of the GNU Affero General Public License,
+    a covered work must retain the producer line in every PDF that is created
+    or manipulated using iText.
+
+    You can be released from the requirements of the license by purchasing
+    a commercial license. Buying such a license is mandatory as soon as you
+    develop commercial activities involving the iText software without
+    disclosing the source code of your own applications.
+    These activities include: offering paid services to customers as an ASP,
+    serving PDFs on the fly in a web application, shipping iText with a closed
+    source product.
+
+    For more information, please contact iText Software Corp. at this
+    address: sales@itextpdf.com */
 package com.itextpdf.zugferd.profiles;
 
 import java.util.ArrayList;
@@ -53,7 +51,7 @@ import java.util.List;
  * conforms with the Comfort profile.
  */
 public class ComfortProfileImp extends BasicProfileImp implements IComfortProfile {
-    
+
     protected List<String> notesCodes = new ArrayList<String>();
     protected String buyerReference;
     protected String sellerID;
@@ -237,7 +235,7 @@ public class ComfortProfileImp extends BasicProfileImp implements IComfortProfil
     public String getInvoiceeID() {
         return invoiceeID;
     }
-    
+
     public String[] getInvoiceeGlobalID() {
         return to1DArray(invoiceeGlobalID);
     }
@@ -245,35 +243,35 @@ public class ComfortProfileImp extends BasicProfileImp implements IComfortProfil
     public String[] getInvoiceeGlobalSchemeID() {
         return to1DArray(invoiceeGlobalSchemeID);
     }
-    
+
     public String getInvoiceeName() {
         return invoiceeName;
     }
-    
+
     public String getInvoiceePostcode() {
         return invoiceePostcode;
     }
-    
+
     public String getInvoiceeLineOne() {
         return invoiceeLineOne;
     }
-    
+
     public String getInvoiceeLineTwo() {
         return invoiceeLineTwo;
     }
-    
+
     public String getInvoiceeCityName() {
         return invoiceeCityName;
     }
-    
+
     public String getInvoiceeCountryID() {
         return invoiceeCountryID;
     }
-    
+
     public String[] getInvoiceeTaxRegistrationID() {
         return to1DArray(invoiceeTaxRegistrationID);
     }
-    
+
     public String[] getInvoiceeTaxRegistrationSchemeID() {
         return to1DArray(invoiceeTaxRegistrationSchemeID);
     }
@@ -281,27 +279,27 @@ public class ComfortProfileImp extends BasicProfileImp implements IComfortProfil
     public String[] getPaymentMeansTypeCode() {
         return to1DArray(paymentMeansTypeCode);
     }
-    
+
     public String[][] getPaymentMeansInformation() {
         return to2DArray(paymentMeansInformation);
     }
-    
+
     public String[] getPaymentMeansPayerAccountIBAN() {
         return to1DArray(paymentMeansPayerAccountIBAN);
     }
-    
+
     public String[] getPaymentMeansPayerAccountProprietaryID() {
         return to1DArray(paymentMeansPayerAccountProprietaryID);
     }
-    
+
     public String[] getPaymentMeansPayerFinancialInstitutionBIC() {
         return to1DArray(paymentMeansPayerFinancialInstitutionBIC);
     }
-    
+
     public String[] getPaymentMeansPayerFinancialInstitutionGermanBankleitzahlID() {
         return to1DArray(paymentMeansPayerFinancialInstitutionGermanBankleitzahlID);
     }
-    
+
     public String[] getPaymentMeansPayerFinancialInstitutionName() {
         return to1DArray(paymentMeansPayerFinancialInstitutionName);
     }
@@ -313,35 +311,35 @@ public class ComfortProfileImp extends BasicProfileImp implements IComfortProfil
     public String[] getTaxCategoryCode() {
         return to1DArray(taxCategoryCode);
     }
-    
+
     public Date getBillingStartDateTime() {
         return billingStartDateTime;
     }
-    
+
     public String getBillingStartDateTimeFormat() {
         return billingStartDateTimeFormat;
     }
-    
+
     public Date getBillingEndDateTime() {
         return billingEndDateTime;
     }
-    
+
     public String getBillingEndDateTimeFormat() {
         return billingEndDateTimeFormat;
     }
-    
+
     public boolean[] getSpecifiedTradeAllowanceChargeIndicator() {
         return to1DArrayB(tradeAllowanceChargeIndicator);
     }
-    
+
     public String[] getSpecifiedTradeAllowanceChargeActualAmount() {
         return to1DArray(tradeAllowanceChargeActualAmount);
     }
-    
+
     public String[] getSpecifiedTradeAllowanceChargeActualAmountCurrency() {
         return to1DArray(tradeAllowanceChargeActualAmountCurrency);
     }
-    
+
     public String[] getSpecifiedTradeAllowanceChargeReason() {
         return to1DArray(tradeAllowanceChargeReason);
     }
@@ -349,15 +347,15 @@ public class ComfortProfileImp extends BasicProfileImp implements IComfortProfil
     public String[][] getSpecifiedTradeAllowanceChargeTaxTypeCode() {
         return to2DArray(tradeAllowanceChargeTaxTypeCode);
     }
-    
+
     public String[][] getSpecifiedTradeAllowanceChargeTaxCategoryCode() {
         return to2DArray(tradeAllowanceChargeTaxCategoryCode);
     }
-    
+
     public String[][] getSpecifiedTradeAllowanceChargeTaxApplicablePercent() {
         return to2DArray(tradeAllowanceChargeTaxApplicablePercent);
     }
-    
+
     public String[][] getSpecifiedLogisticsServiceChargeDescription() {
         return to2DArray(logisticsServiceChargeDescription);
     }
@@ -376,7 +374,7 @@ public class ComfortProfileImp extends BasicProfileImp implements IComfortProfil
     public String[][] getSpecifiedLogisticsServiceChargeTaxApplicablePercent() {
         return to2DArray(logisticsServiceChargeTaxApplicablePercent);
     }
-    
+
     public String[][] getSpecifiedTradePaymentTermsDescription() {
         return to2DArray(tradePaymentTermsInformation);
     }
@@ -404,7 +402,7 @@ public class ComfortProfileImp extends BasicProfileImp implements IComfortProfil
     public String[][][] getLineItemIncludedNote() {
         return to3DArray(lineItemIncludedNote);
     }
-    
+
     public String[] getLineItemGrossPriceChargeAmount() {
         return to1DArray(lineItemGrossPriceChargeAmount);
     }
@@ -441,7 +439,7 @@ public class ComfortProfileImp extends BasicProfileImp implements IComfortProfil
     public String[] getLineItemNetPriceBasisQuantityCode() {
         return to1DArray(lineItemNetPriceBasisQuantityCode);
     }
-    
+
     public String[][] getLineItemSettlementTaxTypeCode() {
         return to2DArray(lineItemSettlementTaxTypeCode);
     }
@@ -475,12 +473,12 @@ public class ComfortProfileImp extends BasicProfileImp implements IComfortProfil
     public String[] getLineItemSpecifiedTradeProductDescription() {
         return to1DArray(lineItemSpecifiedTradeProductDescription);
     }
-    
+
     @Override
     public void addNote(String[] note) {
         throw new UnsupportedOperationException("This method can only be used for the BASIC level.");
     }
-    
+
     public void addNote(String[] note, String code) {
         notes.add(note);
         notesCodes.add(code);
@@ -507,7 +505,7 @@ public class ComfortProfileImp extends BasicProfileImp implements IComfortProfil
         this.buyerGlobalID.add(buyerGlobalID);
         this.buyerGlobalSchemeID.add(buyerGlobalSchemeID);
     }
-    
+
     public void setBuyerOrderReferencedDocumentIssueDateTime(Date buyerOrderReferencedDocumentIssueDateTime, String buyerOrderReferencedDocumentIssueDateTimeFormat) {
         this.buyerOrderReferencedDocumentIssueDateTime = buyerOrderReferencedDocumentIssueDateTime;
         this.buyerOrderReferencedDocumentIssueDateTimeFormat = buyerOrderReferencedDocumentIssueDateTimeFormat;
@@ -546,36 +544,36 @@ public class ComfortProfileImp extends BasicProfileImp implements IComfortProfil
     public void setInvoiceeID(String invoiceeID) {
         this.invoiceeID = invoiceeID;
     }
-    
+
     public void addInvoiceeGlobalID(String invoiceeGlobalSchemeID, String invoiceeGlobalID) {
         this.invoiceeGlobalSchemeID.add(invoiceeGlobalSchemeID);
         this.invoiceeGlobalID.add(invoiceeGlobalID);
     }
-    
+
     public void setInvoiceeName(String invoiceeName) {
         this.invoiceeName = invoiceeName;
     }
-    
+
     public void setInvoiceePostcode(String invoiceePostcode) {
         this.invoiceePostcode = invoiceePostcode;
     }
-    
+
     public void setInvoiceeLineOne(String invoiceeLineOne) {
         this.invoiceeLineOne = invoiceeLineOne;
     }
-    
+
     public void setInvoiceeLineTwo(String invoiceeLineTwo) {
         this.invoiceeLineTwo = invoiceeLineTwo;
     }
-    
+
     public void setInvoiceeCityName(String invoiceeCityName) {
         this.invoiceeCityName = invoiceeCityName;
     }
-    
+
     public void setInvoiceeCountryID(String invoiceeCountryID) {
         this.invoiceeCountryID = invoiceeCountryID;
     }
-    
+
     public void addInvoiceeTaxRegistration(String schemeID, String taxId) {
         invoiceeTaxRegistrationSchemeID.add(schemeID);
         invoiceeTaxRegistrationID.add(taxId);
@@ -628,7 +626,7 @@ public class ComfortProfileImp extends BasicProfileImp implements IComfortProfil
         taxCategoryCode.add(categoryCode);
         taxApplicablePercent.add(applicablePercent);
     }
-    
+
     public void setBillingStartEnd(Date billingStartDateTime, String billingStartDateTimeFormat,
             Date billingEndDateTime, String billingEndDateTimeFormat) {
         this.billingStartDateTime = billingStartDateTime;
@@ -636,7 +634,7 @@ public class ComfortProfileImp extends BasicProfileImp implements IComfortProfil
         this.billingEndDateTime = billingEndDateTime;
         this.billingEndDateTimeFormat = billingEndDateTimeFormat;
     }
-    
+
     public void addSpecifiedTradeAllowanceCharge(boolean indicator, String actualAmount, String actualAmountCurrency,
             String reason, String[] typeCodes, String[] categoryCodes, String[] applicablePercent) {
         this.tradeAllowanceChargeIndicator.add(indicator);
@@ -647,7 +645,7 @@ public class ComfortProfileImp extends BasicProfileImp implements IComfortProfil
         this.tradeAllowanceChargeTaxCategoryCode.add(categoryCodes);
         this.tradeAllowanceChargeTaxApplicablePercent.add(applicablePercent);
     }
-    
+
     public void addSpecifiedLogisticsServiceCharge(String[] description, String actualAmount, String actualAmountCurrency,
             String[] typeCodes, String[] categoryCodes, String[] applicablePercent) {
         this.logisticsServiceChargeDescription.add(description);
@@ -657,13 +655,13 @@ public class ComfortProfileImp extends BasicProfileImp implements IComfortProfil
         this.logisticsServiceChargeTaxCategoryCode.add(categoryCodes);
         this.logisticsServiceChargeTaxApplicablePercent.add(applicablePercent);
     }
-    
+
     public void addSpecifiedTradePaymentTerms(String[] information, Date dateTime, String dateTimeFormat) {
         this.tradePaymentTermsInformation.add(information);
         this.tradePaymentTermsDueDateTime.add(dateTime);
         this.tradePaymentTermsDueDateTimeFormat.add(dateTimeFormat);
     }
-    
+
     public void setTotalPrepaidAmount(String totalPrepaidAmount, String totalPrepaidCurrencyID) {
         this.totalPrepaidAmount = totalPrepaidAmount;
         this.totalPrepaidAmountCurrencyID = totalPrepaidCurrencyID;
@@ -672,12 +670,12 @@ public class ComfortProfileImp extends BasicProfileImp implements IComfortProfil
         this.duePayableAmount = duePayableAmount;
         this.duePayableAmountCurrencyID = duePayableAmountCurrencyID;
     }
-    
+
     @Override
     public void addIncludedSupplyChainTradeLineItem(String billedQuantity, String billedQuantityUnitCode, String specifiedTradeProductName) {
         throw new UnsupportedOperationException("This method can only be used for the BASIC level.");
     }
-    
+
     public void addIncludedSupplyChainTradeLineItem(String id, String[][] notes,
             String grossPriceChargeAmount, String grossPriceChargeAmountCurrencyID,
             String grossPriceBasisQuantity, String grossPriceBasisQuantityCode,
@@ -730,4 +728,3 @@ public class ComfortProfileImp extends BasicProfileImp implements IComfortProfil
         this.lineItemSpecifiedTradeProductDescription.add(lineItemSpecifiedTradeProductDescription);
     }
 }
-
