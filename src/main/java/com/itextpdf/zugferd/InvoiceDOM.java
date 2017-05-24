@@ -64,11 +64,16 @@ import com.itextpdf.zugferd.validation.comfort.FreeTextSubjectCode;
 import com.itextpdf.zugferd.validation.comfort.GlobalIdentifierCode;
 import com.itextpdf.zugferd.validation.comfort.PaymentMeansCode;
 import com.itextpdf.zugferd.validation.comfort.TaxCategoryCode;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.EntityResolver;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Date;
+import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -79,13 +84,11 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringReader;
+import java.util.Date;
 
 public class InvoiceDOM {
     private static final String PRODUCT_NAME = "pdfInvoice";
@@ -161,6 +164,7 @@ public class InvoiceDOM {
         // loading the XML template
         DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+        docBuilder.setEntityResolver(new SafeEmptyEntityResolver());
         InputStream is = ResourceUtil.getResourceStream("com/itextpdf/zugferd/xml/zugferd-template.xml");
         doc = docBuilder.parse(is);
         // importing the data
@@ -1228,6 +1232,10 @@ public class InvoiceDOM {
     public byte[] toXML() throws TransformerException {
         removeEmptyNodes(doc);
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        try {
+            transformerFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+            transformerFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, "");
+        } catch (Exception exc) {}
         Transformer transformer = transformerFactory.newTransformer();
         transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
         transformer.setOutputProperty(OutputKeys.METHOD, "xml");
@@ -1273,4 +1281,12 @@ public class InvoiceDOM {
         if (s == null || s.trim().length() == 0)
             throw new DataIncompleteException(message);
     }
+
+    // Prevents XXE attacks
+    private static class SafeEmptyEntityResolver implements EntityResolver {
+        public InputSource resolveEntity(String publicId, String systemId) throws SAXException, IOException {
+            return new InputSource(new StringReader(""));
+        }
+    }
+
 }
