@@ -1,8 +1,8 @@
 /*
     This file is part of the iText (R) project.
     Copyright (c) 1998-2017 iText Group NV
-    Authors: iText Software.
-
+    Authors: Bruno Lowagie, et al.
+    
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License version 3
     as published by the Free Software Foundation with the addition of the
@@ -10,7 +10,7 @@
     FOR ANY PART OF THE COVERED WORK IN WHICH THE COPYRIGHT IS OWNED BY
     ITEXT GROUP. ITEXT GROUP DISCLAIMS THE WARRANTY OF NON INFRINGEMENT
     OF THIRD PARTY RIGHTS
-
+    
     This program is distributed in the hope that it will be useful, but
     WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
     or FITNESS FOR A PARTICULAR PURPOSE.
@@ -20,15 +20,15 @@
     the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
     Boston, MA, 02110-1301 USA, or download the license from the following URL:
     http://itextpdf.com/terms-of-use/
-
+    
     The interactive user interfaces in modified source and object code versions
     of this program must display Appropriate Legal Notices, as required under
     Section 5 of the GNU Affero General Public License.
-
+    
     In accordance with Section 7(b) of the GNU Affero General Public License,
     a covered work must retain the producer line in every PDF that is created
     or manipulated using iText.
-
+    
     You can be released from the requirements of the license by purchasing
     a commercial license. Buying such a license is mandatory as soon as you
     develop commercial activities involving the iText software without
@@ -36,9 +36,10 @@
     These activities include: offering paid services to customers as an ASP,
     serving PDFs on the fly in a web application, shipping iText with a closed
     source product.
-
+    
     For more information, please contact iText Software Corp. at this
-    address: sales@itextpdf.com */
+    address: sales@itextpdf.com
+ */
 package com.itextpdf.zugferd;
 
 import com.itextpdf.io.util.ResourceUtil;
@@ -90,25 +91,58 @@ import java.io.InputStream;
 import java.io.StringReader;
 import java.util.Date;
 
+/**
+ * The Class InvoiceDOM.
+ */
 public class InvoiceDOM {
+    
+    /** The Constant PRODUCT_NAME. */
     private static final String PRODUCT_NAME = "pdfInvoice";
+    
+    /** The Constant PRODUCT_MAJOR. */
     private static final int PRODUCT_MAJOR = 1;
+    
+    /** The Constant PRODUCT_MINOR. */
     private static final int PRODUCT_MINOR = 0;
 
     // code checkers
+    
+    /** The Constant COUNTRY_CODE. */
     public static final CountryCode COUNTRY_CODE = new CountryCode();
+    
+    /** The Constant CURR_CODE. */
     public static final CurrencyCode CURR_CODE = new CurrencyCode();
+    
+    /** The Constant DF_CODE. */
     public static final DateFormatCode DF_CODE = new DateFormatCode();
+    
+    /** The Constant GI_CODE. */
     public static final GlobalIdentifierCode GI_CODE = new GlobalIdentifierCode();
+    
+    /** The Constant M_UNIT_CODE. */
     public static final MeasurementUnitCode M_UNIT_CODE = new MeasurementUnitCode();
+    
+    /** The Constant DEC2. */
     public static final NumberChecker DEC2 = new NumberChecker(NumberChecker.TWO_DECIMALS);
+    
+    /** The Constant DEC4. */
     public static final NumberChecker DEC4 = new NumberChecker(NumberChecker.FOUR_DECIMALS);
+    
+    /** The Constant PM_CODE. */
     public static final PaymentMeansCode PM_CODE = new PaymentMeansCode();
+    
+    /** The Constant TC_CODE. */
     public static final TaxCategoryCode TC_CODE = new TaxCategoryCode();
+    
+    /** The Constant TIDT_CODE. */
     public static final TaxIDTypeCode TIDT_CODE = new TaxIDTypeCode();
+    
+    /** The Constant TT_CODE. */
     public static final TaxTypeCode TT_CODE = new TaxTypeCode();
-
+    
     // The DOM document
+    
+    /** The DOM document. */
     protected final Document doc;
 
     /**
@@ -116,11 +150,11 @@ public class InvoiceDOM {
      *
      * @param data If this is an instance of BASICInvoice, the BASIC profile will be used;
      *             If this is an instance of COMFORTInvoice, the COMFORT profile will be used.
-     * @throws javax.xml.parsers.ParserConfigurationException
-     * @throws org.xml.sax.SAXException
-     * @throws java.io.IOException
-     * @throws com.itextpdf.zugferd.exceptions.DataIncompleteException
-     * @throws com.itextpdf.zugferd.exceptions.InvalidCodeException
+     * @throws ParserConfigurationException the parser configuration exception
+     * @throws SAXException the SAX exception
+     * @throws IOException Signals that an I/O exception has occurred.
+     * @throws DataIncompleteException the data incomplete exception
+     * @throws InvalidCodeException the invalid code exception
      */
     public InvoiceDOM(IBasicProfile data)
             throws ParserConfigurationException, SAXException, IOException,
@@ -178,7 +212,8 @@ public class InvoiceDOM {
      *
      * @param doc  the Document object we are going to populate
      * @param data the interface that gives us access to the data
-     * @throws com.itextpdf.zugferd.exceptions.InvalidCodeException
+     * @throws DataIncompleteException the data incomplete exception
+     * @throws InvalidCodeException the invalid code exception
      */
     private void importData(Document doc, IBasicProfile data)
             throws DataIncompleteException, InvalidCodeException {
@@ -191,7 +226,7 @@ public class InvoiceDOM {
     }
 
     /**
-     * Imports the data for the following tag: rsm:SpecifiedExchangedDocumentContext
+     * Imports the data for the following tag: rsm:SpecifiedExchangedDocumentContext.
      *
      * @param element the rsm:SpecifiedExchangedDocumentContext element
      * @param data    the invoice data
@@ -202,12 +237,12 @@ public class InvoiceDOM {
     }
 
     /**
-     * Imports the data for the following tag: rsm:HeaderExchangedDocument
+     * Imports the data for the following tag: rsm:HeaderExchangedDocument.
      *
      * @param element the rsm:HeaderExchangedDocument element
      * @param data    the invoice data
-     * @throws com.itextpdf.zugferd.exceptions.DataIncompleteException
-     * @throws com.itextpdf.zugferd.exceptions.InvalidCodeException
+     * @throws DataIncompleteException the data incomplete exception
+     * @throws InvalidCodeException the invalid code exception
      */
     protected void importHeaderExchangedDocument(Element element, IBasicProfile data)
             throws DataIncompleteException, InvalidCodeException {
@@ -274,7 +309,7 @@ public class InvoiceDOM {
      * @param tag            the date tag we want to change
      * @param dateTimeFormat the format that will be used as an attribute
      * @param dateTime       the actual date
-     * @throws com.itextpdf.zugferd.exceptions.InvalidCodeException
+     * @throws InvalidCodeException the invalid code exception
      */
     protected void importDateTime(Element parent, String tag,
                                   String dateTimeFormat, Date dateTime)
@@ -292,8 +327,8 @@ public class InvoiceDOM {
      * @param notes      array of notes
      * @param notesCodes array of codes for the notes.
      *                   If not null, notes and notesCodes need to have an equal number of elements.
-     * @throws com.itextpdf.zugferd.exceptions.DataIncompleteException
-     * @throws com.itextpdf.zugferd.exceptions.InvalidCodeException
+     * @throws DataIncompleteException the data incomplete exception
+     * @throws InvalidCodeException the invalid code exception
      */
     protected void importIncludedNotes(Element parent, int level,
                                        String notes[][], String[] notesCodes)
@@ -321,12 +356,12 @@ public class InvoiceDOM {
     }
 
     /**
-     * Imports the data for the following tag: rsm:SpecifiedSupplyChainTradeTransaction
+     * Imports the data for the following tag: rsm:SpecifiedSupplyChainTradeTransaction.
      *
-     * @param element
+     * @param element the element
      * @param data    the invoice data
-     * @throws com.itextpdf.zugferd.exceptions.DataIncompleteException
-     * @throws com.itextpdf.zugferd.exceptions.InvalidCodeException
+     * @throws DataIncompleteException the data incomplete exception
+     * @throws InvalidCodeException the invalid code exception
      */
     protected void importSpecifiedSupplyChainTradeTransaction(Element element, IBasicProfile data)
             throws DataIncompleteException, InvalidCodeException {
@@ -453,8 +488,8 @@ public class InvoiceDOM {
      *
      * @param parent the parent element
      * @param data   the data
-     * @throws com.itextpdf.zugferd.exceptions.DataIncompleteException
-     * @throws com.itextpdf.zugferd.exceptions.InvalidCodeException
+     * @throws DataIncompleteException the data incomplete exception
+     * @throws InvalidCodeException the invalid code exception
      */
     protected void importSellerTradeParty(Element parent, IBasicProfile data)
             throws DataIncompleteException, InvalidCodeException {
@@ -486,8 +521,8 @@ public class InvoiceDOM {
      *
      * @param parent the parent element
      * @param data   the data
-     * @throws com.itextpdf.zugferd.exceptions.DataIncompleteException
-     * @throws com.itextpdf.zugferd.exceptions.InvalidCodeException
+     * @throws DataIncompleteException the data incomplete exception
+     * @throws InvalidCodeException the invalid code exception
      */
     protected void importBuyerTradeParty(Element parent, IBasicProfile data)
             throws DataIncompleteException, InvalidCodeException {
@@ -519,8 +554,8 @@ public class InvoiceDOM {
      *
      * @param parent the parent element
      * @param data   the data
-     * @throws com.itextpdf.zugferd.exceptions.DataIncompleteException
-     * @throws com.itextpdf.zugferd.exceptions.InvalidCodeException
+     * @throws DataIncompleteException the data incomplete exception
+     * @throws InvalidCodeException the invalid code exception
      */
     protected void importInvoiceeTradeParty(Element parent, IComfortProfile data)
             throws DataIncompleteException, InvalidCodeException {
@@ -547,19 +582,19 @@ public class InvoiceDOM {
      * Imports trade party information (could be seller, buyer or invoicee).
      *
      * @param parent                  the parent element
-     * @param id
-     * @param globalID
-     * @param globalIDScheme
-     * @param name
-     * @param postcode
-     * @param lineOne
-     * @param lineTwo
-     * @param countryID
-     * @param cityName
-     * @param taxRegistrationID
-     * @param taxRegistrationSchemeID
-     * @throws com.itextpdf.zugferd.exceptions.DataIncompleteException
-     * @throws com.itextpdf.zugferd.exceptions.InvalidCodeException
+     * @param id the id
+     * @param globalID the global ID
+     * @param globalIDScheme the global ID scheme
+     * @param name the name
+     * @param postcode the postcode
+     * @param lineOne the line one
+     * @param lineTwo the line two
+     * @param cityName the city name
+     * @param countryID the country ID
+     * @param taxRegistrationID the tax registration ID
+     * @param taxRegistrationSchemeID the tax registration scheme ID
+     * @throws DataIncompleteException the data incomplete exception
+     * @throws InvalidCodeException the invalid code exception
      */
     protected void importTradeParty(Element parent,
                                     String id, String[] globalID, String[] globalIDScheme,
@@ -614,7 +649,7 @@ public class InvoiceDOM {
      *
      * @param parent the parent element
      * @param data   the data
-     * @throws com.itextpdf.zugferd.exceptions.InvalidCodeException
+     * @throws InvalidCodeException the invalid code exception
      */
     protected void importPaymentMeans(Element parent, IBasicProfile data)
             throws InvalidCodeException {
@@ -672,22 +707,22 @@ public class InvoiceDOM {
      * Imports payment means data.
      *
      * @param parent             the parent element
-     * @param typeCode
-     * @param information
-     * @param id
-     * @param scheme
-     * @param payerIban
-     * @param payerProprietaryID
-     * @param iban
-     * @param accID
-     * @param accName
-     * @param payerBic
-     * @param payerBank
-     * @param inst
-     * @param bic
-     * @param bank
-     * @param payerInst
-     * @throws com.itextpdf.zugferd.exceptions.InvalidCodeException
+     * @param typeCode the type code
+     * @param information the information
+     * @param id the id
+     * @param scheme the scheme
+     * @param payerIban the payer iban
+     * @param payerProprietaryID the payer proprietary ID
+     * @param iban the iban
+     * @param accName the acc name
+     * @param accID the acc ID
+     * @param payerBic the payer bic
+     * @param payerBank the payer bank
+     * @param payerInst the payer inst
+     * @param bic the bic
+     * @param bank the bank
+     * @param inst the inst
+     * @throws InvalidCodeException the invalid code exception
      */
     protected void importPaymentMeans(Element parent,
                                       String typeCode, String[] information, String id, String scheme,
@@ -730,8 +765,8 @@ public class InvoiceDOM {
      *
      * @param parent the parent element
      * @param data   the data
-     * @throws com.itextpdf.zugferd.exceptions.DataIncompleteException
-     * @throws com.itextpdf.zugferd.exceptions.InvalidCodeException
+     * @throws InvalidCodeException the invalid code exception
+     * @throws DataIncompleteException the data incomplete exception
      */
     protected void importTax(Element parent, IBasicProfile data)
             throws InvalidCodeException, DataIncompleteException {
@@ -762,17 +797,17 @@ public class InvoiceDOM {
     /**
      * Imports tax data.
      *
-     * @param parent
-     * @param calculatedAmount
-     * @param currencyID
-     * @param typeCode
-     * @param exemptionReason
-     * @param basisAmount
-     * @param basisAmountCurr
-     * @param category
-     * @param percent
-     * @throws InvalidCodeException
-     * @throws DataIncompleteException
+     * @param parent the parent
+     * @param calculatedAmount the calculated amount
+     * @param currencyID the currency ID
+     * @param typeCode the type code
+     * @param exemptionReason the exemption reason
+     * @param basisAmount the basis amount
+     * @param basisAmountCurr the basis amount curr
+     * @param category the category
+     * @param percent the percent
+     * @throws InvalidCodeException the invalid code exception
+     * @throws DataIncompleteException the data incomplete exception
      */
     protected void importTax(Element parent,
                              String calculatedAmount, String currencyID, String typeCode,
@@ -803,7 +838,7 @@ public class InvoiceDOM {
      *
      * @param parent the parent element
      * @param data   the data
-     * @throws InvalidCodeException
+     * @throws InvalidCodeException the invalid code exception
      */
     protected void importSpecifiedTradeAllowanceCharge(Element parent, IComfortProfile data)
             throws InvalidCodeException {
@@ -827,15 +862,15 @@ public class InvoiceDOM {
     /**
      * Imports specified trade allowance charge.
      *
-     * @param parent
-     * @param indicator
-     * @param actualAmount
-     * @param actualAmountCurrency
-     * @param reason
-     * @param typeCode
-     * @param categoryCode
-     * @param percent
-     * @throws InvalidCodeException
+     * @param parent the parent
+     * @param indicator the indicator
+     * @param actualAmount the actual amount
+     * @param actualAmountCurrency the actual amount currency
+     * @param reason the reason
+     * @param typeCode the type code
+     * @param categoryCode the category code
+     * @param percent the percent
+     * @throws InvalidCodeException the invalid code exception
      */
     protected void importSpecifiedTradeAllowanceCharge(Element parent,
                                                        boolean indicator, String actualAmount, String actualAmountCurrency,
@@ -859,7 +894,7 @@ public class InvoiceDOM {
      *
      * @param parent the parent element
      * @param data   the data
-     * @throws InvalidCodeException
+     * @throws InvalidCodeException the invalid code exception
      */
     protected void importSpecifiedLogisticsServiceCharge(Element parent, IComfortProfile data)
             throws InvalidCodeException {
@@ -883,13 +918,13 @@ public class InvoiceDOM {
      * Imports specified logistics service charge data.
      *
      * @param parent        the parent element
-     * @param description
-     * @param appliedAmount
-     * @param currencyID
-     * @param typeCode
-     * @param categoryCode
-     * @param percent
-     * @throws InvalidCodeException
+     * @param description the description
+     * @param appliedAmount the applied amount
+     * @param currencyID the currency ID
+     * @param typeCode the type code
+     * @param categoryCode the category code
+     * @param percent the percent
+     * @throws InvalidCodeException the invalid code exception
      */
     protected void importSpecifiedLogisticsServiceCharge(Element parent,
                                                          String[] description, String appliedAmount, String currencyID,
@@ -917,7 +952,7 @@ public class InvoiceDOM {
      *
      * @param parent the parent element
      * @param data   the data
-     * @throws InvalidCodeException
+     * @throws InvalidCodeException the invalid code exception
      */
     protected void importSpecifiedTradePaymentTerms(Element parent, IComfortProfile data)
             throws InvalidCodeException {
@@ -937,10 +972,10 @@ public class InvoiceDOM {
      * Imports specified trade payment terms.
      *
      * @param parent         the parent element
-     * @param description
-     * @param dateTime
-     * @param dateTimeFormat
-     * @throws InvalidCodeException
+     * @param description the description
+     * @param dateTime the date time
+     * @param dateTimeFormat the date time format
+     * @throws InvalidCodeException the invalid code exception
      */
     protected void importSpecifiedTradePaymentTerms(Element parent,
                                                     String[] description, Date dateTime, String dateTimeFormat)
@@ -960,8 +995,8 @@ public class InvoiceDOM {
      *
      * @param parent the parent element
      * @param data   the data
-     * @throws DataIncompleteException
-     * @throws InvalidCodeException
+     * @throws DataIncompleteException the data incomplete exception
+     * @throws InvalidCodeException the invalid code exception
      */
     protected void importLineItemsComfort(Element parent, IComfortProfile data)
             throws DataIncompleteException, InvalidCodeException {
@@ -1023,36 +1058,36 @@ public class InvoiceDOM {
      * Imports line item data (comfort profile).
      *
      * @param parent                                               the parent element
-     * @param lineID
-     * @param note
-     * @param grossPriceChargeAmount
-     * @param grossPriceChargeAmountCurrencyID
-     * @param grossPriceBasisQuantity
-     * @param grossPriceBasisQuantityCode
-     * @param grossPriceTradeAllowanceChargeIndicator
-     * @param grossPriceTradeAllowanceChargeActualAmount
-     * @param grossPriceTradeAllowanceChargeActualAmountCurrencyID
-     * @param grossPriceTradeAllowanceChargeReason
-     * @param netPriceChargeAmount
-     * @param netPriceChargeAmountCurrencyID
-     * @param netPriceBasisQuantity
-     * @param netPriceBasisQuantityCode
-     * @param billedQuantity
-     * @param billedQuantityCode
-     * @param settlementTaxTypeCode
-     * @param settlementTaxExemptionReason
-     * @param settlementTaxCategoryCode
-     * @param settlementTaxApplicablePercent
-     * @param totalAmount
-     * @param totalAmountCurrencyID
-     * @param specifiedTradeProductGlobalID
-     * @param specifiedTradeProductSchemeID
-     * @param specifiedTradeProductSellerAssignedID
-     * @param specifiedTradeProductBuyerAssignedID
-     * @param specifiedTradeProductName
-     * @param specifiedTradeProductDescription
-     * @throws DataIncompleteException
-     * @throws InvalidCodeException
+     * @param lineID the line ID
+     * @param note the note
+     * @param grossPriceChargeAmount the gross price charge amount
+     * @param grossPriceChargeAmountCurrencyID the gross price charge amount currency ID
+     * @param grossPriceBasisQuantity the gross price basis quantity
+     * @param grossPriceBasisQuantityCode the gross price basis quantity code
+     * @param grossPriceTradeAllowanceChargeIndicator the gross price trade allowance charge indicator
+     * @param grossPriceTradeAllowanceChargeActualAmount the gross price trade allowance charge actual amount
+     * @param grossPriceTradeAllowanceChargeActualAmountCurrencyID the gross price trade allowance charge actual amount currency ID
+     * @param grossPriceTradeAllowanceChargeReason the gross price trade allowance charge reason
+     * @param netPriceChargeAmount the net price charge amount
+     * @param netPriceChargeAmountCurrencyID the net price charge amount currency ID
+     * @param netPriceBasisQuantity the net price basis quantity
+     * @param netPriceBasisQuantityCode the net price basis quantity code
+     * @param billedQuantity the billed quantity
+     * @param billedQuantityCode the billed quantity code
+     * @param settlementTaxTypeCode the settlement tax type code
+     * @param settlementTaxExemptionReason the settlement tax exemption reason
+     * @param settlementTaxCategoryCode the settlement tax category code
+     * @param settlementTaxApplicablePercent the settlement tax applicable percent
+     * @param totalAmount the total amount
+     * @param totalAmountCurrencyID the total amount currency ID
+     * @param specifiedTradeProductGlobalID the specified trade product global ID
+     * @param specifiedTradeProductSchemeID the specified trade product scheme ID
+     * @param specifiedTradeProductSellerAssignedID the specified trade product seller assigned ID
+     * @param specifiedTradeProductBuyerAssignedID the specified trade product buyer assigned ID
+     * @param specifiedTradeProductName the specified trade product name
+     * @param specifiedTradeProductDescription the specified trade product description
+     * @throws DataIncompleteException the data incomplete exception
+     * @throws InvalidCodeException the invalid code exception
      */
     protected void importLineItemComfort(Element parent,
                                          String lineID, String[][] note,
@@ -1135,12 +1170,12 @@ public class InvoiceDOM {
      * Imports applied trade allowance charge data (line items).
      *
      * @param parent       the parent element
-     * @param indicator
-     * @param actualAmount
-     * @param currencyID
-     * @param reason
-     * @throws DataIncompleteException
-     * @throws InvalidCodeException
+     * @param indicator the indicator
+     * @param actualAmount the actual amount
+     * @param currencyID the currency ID
+     * @param reason the reason
+     * @throws DataIncompleteException the data incomplete exception
+     * @throws InvalidCodeException the invalid code exception
      */
     protected void importAppliedTradeAllowanceCharge(Element parent,
                                                      boolean indicator, String actualAmount, String currencyID, String reason)
@@ -1155,12 +1190,12 @@ public class InvoiceDOM {
      * Imports tax data.
      *
      * @param parent          the parent element
-     * @param typeCode
-     * @param exemptionReason
-     * @param category
-     * @param percent
-     * @throws com.itextpdf.zugferd.exceptions.InvalidCodeException
-     * @throws com.itextpdf.zugferd.exceptions.DataIncompleteException
+     * @param typeCode the type code
+     * @param exemptionReason the exemption reason
+     * @param category the category
+     * @param percent the percent
+     * @throws InvalidCodeException the invalid code exception
+     * @throws DataIncompleteException the data incomplete exception
      */
     protected void importTax(Element parent,
                              String typeCode, String exemptionReason,
@@ -1183,10 +1218,10 @@ public class InvoiceDOM {
     /**
      * Gets line data to import the this data (basic profile).
      *
-     * @param parent
-     * @param data
-     * @throws DataIncompleteException
-     * @throws InvalidCodeException
+     * @param parent the parent
+     * @param data the data
+     * @throws DataIncompleteException the data incomplete exception
+     * @throws InvalidCodeException the invalid code exception
      */
     protected void importLineItemsBasic(Element parent, IBasicProfile data)
             throws DataIncompleteException, InvalidCodeException {
@@ -1204,13 +1239,13 @@ public class InvoiceDOM {
     }
 
     /**
-     * Imports the data for a line item (basic profile)
+     * Imports the data for a line item (basic profile).
      *
      * @param parent   the parent element
-     * @param quantity
-     * @param code
-     * @param name
-     * @throws InvalidCodeException
+     * @param quantity the quantity
+     * @param code the code
+     * @param name the name
+     * @throws InvalidCodeException the invalid code exception
      */
     protected void importLineItemBasic(Element parent,
                                        String quantity, String code, String name)
@@ -1227,7 +1262,7 @@ public class InvoiceDOM {
      * Exports the Document as an XML file.
      *
      * @return a byte[] with the data in XML format
-     * @throws javax.xml.transform.TransformerException
+     * @throws TransformerException the transformer exception
      */
     public byte[] toXML() throws TransformerException {
         removeEmptyNodes(doc);
@@ -1275,7 +1310,7 @@ public class InvoiceDOM {
      *
      * @param s       the String to check
      * @param message the message if an exception is thrown
-     * @throws com.itextpdf.zugferd.exceptions.DataIncompleteException
+     * @throws DataIncompleteException the data incomplete exception
      */
     protected void check(String s, String message) throws DataIncompleteException {
         if (s == null || s.trim().length() == 0)
@@ -1283,7 +1318,15 @@ public class InvoiceDOM {
     }
 
     // Prevents XXE attacks
+    
+    /**
+     * A safe empty entity resolver to prevent XXE attacks.
+     */
     private static class SafeEmptyEntityResolver implements EntityResolver {
+        
+        /* (non-Javadoc)
+         * @see org.xml.sax.EntityResolver#resolveEntity(java.lang.String, java.lang.String)
+         */
         public InputSource resolveEntity(String publicId, String systemId) throws SAXException, IOException {
             return new InputSource(new StringReader(""));
         }

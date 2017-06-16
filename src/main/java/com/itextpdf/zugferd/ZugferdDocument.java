@@ -1,8 +1,8 @@
 /*
     This file is part of the iText (R) project.
     Copyright (c) 1998-2017 iText Group NV
-    Authors: iText Software.
-
+    Authors: Bruno Lowagie, et al.
+    
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License version 3
     as published by the Free Software Foundation with the addition of the
@@ -10,7 +10,7 @@
     FOR ANY PART OF THE COVERED WORK IN WHICH THE COPYRIGHT IS OWNED BY
     ITEXT GROUP. ITEXT GROUP DISCLAIMS THE WARRANTY OF NON INFRINGEMENT
     OF THIRD PARTY RIGHTS
-
+    
     This program is distributed in the hope that it will be useful, but
     WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
     or FITNESS FOR A PARTICULAR PURPOSE.
@@ -20,15 +20,15 @@
     the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
     Boston, MA, 02110-1301 USA, or download the license from the following URL:
     http://itextpdf.com/terms-of-use/
-
+    
     The interactive user interfaces in modified source and object code versions
     of this program must display Appropriate Legal Notices, as required under
     Section 5 of the GNU Affero General Public License.
-
+    
     In accordance with Section 7(b) of the GNU Affero General Public License,
     a covered work must retain the producer line in every PDF that is created
     or manipulated using iText.
-
+    
     You can be released from the requirements of the license by purchasing
     a commercial license. Buying such a license is mandatory as soon as you
     develop commercial activities involving the iText software without
@@ -36,9 +36,10 @@
     These activities include: offering paid services to customers as an ASP,
     serving PDFs on the fly in a web application, shipping iText with a closed
     source product.
-
+    
     For more information, please contact iText Software Corp. at this
-    address: sales@itextpdf.com */
+    address: sales@itextpdf.com
+ */
 package com.itextpdf.zugferd;
 
 import com.itextpdf.kernel.log.Counter;
@@ -62,14 +63,24 @@ import com.itextpdf.pdfa.PdfADocument;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * The {@link PdfADocument} implementation for ZUGFeRD documents (based on PDF/A-3).
+ */
 public class ZugferdDocument extends PdfADocument {
 
+    /** The Constant PRODUCT_NAME. */
     private static final String PRODUCT_NAME = "pdfInvoice";
+    
+    /** The Constant PRODUCT_MAJOR. */
     private static final int PRODUCT_MAJOR = 1;
+    
+    /** The Constant PRODUCT_MINOR. */
     private static final int PRODUCT_MINOR = 0;
 
+    /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 1737898087328462098L;
 
+    /** The zugferd conformance level. */
     private ZugferdConformanceLevel zugferdConformanceLevel;
 
     /**
@@ -156,6 +167,9 @@ public class ZugferdDocument extends PdfADocument {
         logger.warn(ZugferdLogMessageConstant.NO_ZUGFERD_PROFILE_TYPE_SPECIFIED);
     }
 
+    /* (non-Javadoc)
+     * @see com.itextpdf.pdfa.PdfADocument#addCustomMetadataExtensions(com.itextpdf.kernel.xmp.XMPMeta)
+     */
     @Override
     protected void addCustomMetadataExtensions(XMPMeta xmpMeta) {
         super.addCustomMetadataExtensions(xmpMeta);
@@ -167,6 +181,9 @@ public class ZugferdDocument extends PdfADocument {
         }
     }
 
+    /* (non-Javadoc)
+     * @see com.itextpdf.pdfa.PdfADocument#setChecker(com.itextpdf.kernel.pdf.PdfAConformanceLevel)
+     */
     @Override
     protected void setChecker(PdfAConformanceLevel conformanceLevel) {
         if (!conformanceLevel.equals(PdfAConformanceLevel.PDF_A_3B)) {
@@ -179,11 +196,21 @@ public class ZugferdDocument extends PdfADocument {
         }
     }
 
+    /* (non-Javadoc)
+     * @see com.itextpdf.pdfa.PdfADocument#getCounter()
+     */
     @Override
     protected Counter getCounter() {
         return CounterFactory.getCounter(ZugferdDocument.class);
     }
 
+    /**
+     * Adds the zugferd rdf description.
+     *
+     * @param xmpMeta the xmp meta
+     * @param zugferdConformanceLevel the zugferd conformance level
+     * @throws XMPException the XMP exception
+     */
     private void addZugferdRdfDescription(XMPMeta xmpMeta, ZugferdConformanceLevel zugferdConformanceLevel) throws XMPException {
         switch (zugferdConformanceLevel) {
             case ZUGFeRDBasic:
@@ -197,6 +224,12 @@ public class ZugferdDocument extends PdfADocument {
         }
     }
 
+    /**
+     * Gets the zugferd extension.
+     *
+     * @param conformanceLevel the conformance level
+     * @return the zugferd extension
+     */
     private String getZugferdExtension(ZugferdConformanceLevel conformanceLevel) {
         switch (conformanceLevel) {
             case ZUGFeRDBasic:

@@ -1,8 +1,8 @@
 /*
     This file is part of the iText (R) project.
     Copyright (c) 1998-2017 iText Group NV
-    Authors: iText Software.
-
+    Authors: Bruno Lowagie, et al.
+    
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License version 3
     as published by the Free Software Foundation with the addition of the
@@ -10,7 +10,7 @@
     FOR ANY PART OF THE COVERED WORK IN WHICH THE COPYRIGHT IS OWNED BY
     ITEXT GROUP. ITEXT GROUP DISCLAIMS THE WARRANTY OF NON INFRINGEMENT
     OF THIRD PARTY RIGHTS
-
+    
     This program is distributed in the hope that it will be useful, but
     WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
     or FITNESS FOR A PARTICULAR PURPOSE.
@@ -20,15 +20,15 @@
     the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
     Boston, MA, 02110-1301 USA, or download the license from the following URL:
     http://itextpdf.com/terms-of-use/
-
+    
     The interactive user interfaces in modified source and object code versions
     of this program must display Appropriate Legal Notices, as required under
     Section 5 of the GNU Affero General Public License.
-
+    
     In accordance with Section 7(b) of the GNU Affero General Public License,
     a covered work must retain the producer line in every PDF that is created
     or manipulated using iText.
-
+    
     You can be released from the requirements of the license by purchasing
     a commercial license. Buying such a license is mandatory as soon as you
     develop commercial activities involving the iText software without
@@ -36,9 +36,10 @@
     These activities include: offering paid services to customers as an ASP,
     serving PDFs on the fly in a web application, shipping iText with a closed
     source product.
-
+    
     For more information, please contact iText Software Corp. at this
-    address: sales@itextpdf.com */
+    address: sales@itextpdf.com
+ */
 package com.itextpdf.zugferd.validation.basic;
 
 import com.itextpdf.zugferd.validation.CodeValidation;
@@ -48,20 +49,40 @@ import com.itextpdf.zugferd.validation.CodeValidation;
  * use in the context of a specific format.
  */
 public class DocumentTypeCode extends CodeValidation {
+    
+    /** The Constant COMMERCIAL_INVOICE. */
     public static final String COMMERCIAL_INVOICE = "380";
+    
+    /** The Constant DEBIT_NOTE_FINANCIAL_ADJUSTMENT. */
     public static final String DEBIT_NOTE_FINANCIAL_ADJUSTMENT = "38";
+    
+    /** The Constant SELF_BILLED_INVOICE. */
     public static final String SELF_BILLED_INVOICE = "389";
     
+    /** The Constant BASIC. */
     public static final int BASIC = 0;
+    
+    /** The Constant COMFORT. */
     public static final int COMFORT = 1;
+    
+    /** The Constant EXTENDED. */
     public static final int EXTENDED = 2;
     
+    /** The profile. */
     protected int profile;
     
+    /**
+     * Creates a new {@link DocumentTypeCode}.
+     *
+     * @param profile the profile
+     */
     public DocumentTypeCode(int profile) {
         this.profile = profile;
     }
     
+    /* (non-Javadoc)
+     * @see com.itextpdf.zugferd.validation.CodeValidation#isValid(java.lang.String)
+     */
     public boolean isValid(String code) {
         switch(profile) {
             case BASIC:
@@ -73,15 +94,33 @@ public class DocumentTypeCode extends CodeValidation {
         }
     }
     
+    /**
+     * Checks if a code is valid for the Basic profile.
+     *
+     * @param code the code
+     * @return true, if a valid Basic profile code
+     */
     public static boolean isValidBasic(String code) {
         return COMMERCIAL_INVOICE.equals(code);
     }
     
+    /**
+     * Checks if a code is valid for the Comfort profile.
+     *
+     * @param code the code
+     * @return true, if a valid Comfort profile code
+     */
     public static boolean isValidComfort(String code) {
         return COMMERCIAL_INVOICE.equals(code)
             || DEBIT_NOTE_FINANCIAL_ADJUSTMENT.equals(code);
     }
     
+    /**
+     * Checks if a code is valid for the Extended profile.
+     *
+     * @param code the code
+     * @return true, if a valid Extended profile code
+     */
     public static boolean isValidExtended(String code) {
         return COMMERCIAL_INVOICE.equals(code)
             || DEBIT_NOTE_FINANCIAL_ADJUSTMENT.equals(code)
