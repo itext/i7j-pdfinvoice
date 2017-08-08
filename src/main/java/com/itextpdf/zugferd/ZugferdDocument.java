@@ -64,7 +64,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * The {@link PdfADocument} implementation for ZUGFeRD documents (based on PDF/A-3).
+ * ZUGFeRD documents need to be PDF/A-3 compliant. This class inherits from the iText 7 {@link PdfADocument} implementation
+ * for convenience. The PdfADocument class will handle all of the PDF/A-3 compliance, while this class will handle the
+ * ZUGFeRD compliance.
  */
 public class ZugferdDocument extends PdfADocument {
 
@@ -80,15 +82,16 @@ public class ZugferdDocument extends PdfADocument {
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 1737898087328462098L;
 
-    /** The zugferd conformance level. */
+    /** The ZUGFeRD conformance level. */
     private ZugferdConformanceLevel zugferdConformanceLevel;
 
     /**
-     * Create a ZUGFeRD document with the passed ZUGFeRD conformance level, Pdf/A conformance level and output intent using the passed writer.
-     * @param writer Writer to output the pdf with
-     * @param zugferdConformanceLevel ZUGFeRD conformance level, BASIC, COMFORT or EXTENDED
-     * @param pdfaConformanceLevel Pdf/A conformance level
-     * @param outputIntent Pdf/A output intent for the document.
+     * Creates a ZUGFeRD document with the passed ZUGFeRD conformance level, PDF/A conformance level and output intent using the passed writer.
+     *
+     * @param writer Writer to output the PDF
+     * @param zugferdConformanceLevel ZUGFeRD conformance level, one of  the following: BASIC, COMFORT or EXTENDED
+     * @param pdfaConformanceLevel PDF/A conformance level
+     * @param outputIntent PDF/A output intent for the document.
      */
     public ZugferdDocument(PdfWriter writer, ZugferdConformanceLevel zugferdConformanceLevel,
                            PdfAConformanceLevel pdfaConformanceLevel, PdfOutputIntent outputIntent) {
@@ -132,8 +135,9 @@ public class ZugferdDocument extends PdfADocument {
     }
 
     /**
-     * Create a ZUGFeRD document with the passed ZUGFeRD conformance level and output intent using the passed writer. The PdfA Conformance level will be set to Pdf/A-3B.
-     * @param writer Writer to output the pdf with
+     * Creates a ZUGFeRD document with the passed ZUGFeRD conformance level and output intent using the passed writer. The PdfAConformanceLevel will be set to PDF/A-3B.
+     *
+     * @param writer Writer to output the pdf
      * @param zugferdConformanceLevel ZUGFeRD conformance level, BASIC, COMFORT or EXTENDED
      * @param outputIntent Pdf/A output intent for the document
      */
@@ -144,8 +148,9 @@ public class ZugferdDocument extends PdfADocument {
     }
 
     /**
-     * Create a ZUGFeRD document with the passed Pdf/A conformance level and output intent using the passed writer. The ZUGFeRD Conformance level will be set to BASIC.
-     * @param writer Writer to output the pdf with
+     * Creates a ZUGFeRD document with the passed Pdf/A conformance level and output intent using the passed writer. The ZUGFeRD Conformance level will be set to BASIC.
+     *
+     * @param writer Writer to output the pdf
      * @param pdfaConformanceLevel Pdf/A conformance level
      * @param outputIntent Pdf/A output intent for the document
      */
@@ -156,8 +161,8 @@ public class ZugferdDocument extends PdfADocument {
     }
 
     /**
-     * Create a ZUGFeRD document with the given output intent using given the writer. The ZUGFeRD Conformance level will be set to BASIC and the Pdf/A conformance level will be set to Pdf/A-3B.
-     * @param writer Writer to output the pdf with
+     * Create a ZUGFeRD document with the given output intent using given the writer. The ZUGFeRD Conformance level will be set to BASIC and the Pdf/A conformance level will be set to PDF/A-3B.
+     * @param writer Writer to output the pdf
      * @param outputIntent Pdf/A output intent for the document
      */
     public ZugferdDocument(PdfWriter writer, PdfOutputIntent outputIntent) {
@@ -205,7 +210,7 @@ public class ZugferdDocument extends PdfADocument {
     }
 
     /**
-     * Adds the zugferd rdf description.
+     * Adds the ZUGFeRD RDF description.
      *
      * @param xmpMeta the xmp meta
      * @param zugferdConformanceLevel the zugferd conformance level
@@ -214,7 +219,9 @@ public class ZugferdDocument extends PdfADocument {
     private void addZugferdRdfDescription(XMPMeta xmpMeta, ZugferdConformanceLevel zugferdConformanceLevel) throws XMPException {
         switch (zugferdConformanceLevel) {
             case ZUGFeRDBasic:
+                // fallthrough
             case ZUGFeRDComfort:
+                // fallthrough
             case ZUGFeRDExtended:
                 XMPMeta taggedExtensionMetaComfort = XMPMetaFactory.parseFromString(getZugferdExtension(zugferdConformanceLevel));
                 XMPUtils.appendProperties(taggedExtensionMetaComfort, xmpMeta, true, false);
@@ -225,19 +232,19 @@ public class ZugferdDocument extends PdfADocument {
     }
 
     /**
-     * Gets the zugferd extension.
+     * Gets the ZUGFeRD extension.
      *
      * @param conformanceLevel the conformance level
-     * @return the zugferd extension
+     * @return the ZUGFeRD extension
      */
     private String getZugferdExtension(ZugferdConformanceLevel conformanceLevel) {
         switch (conformanceLevel) {
             case ZUGFeRDBasic:
-                return String.format(ZugferdXMPUtil.ZUGFERD_EXTENSION, "BASIC");
+                return String.format(ZugferdXMPUtil.ZUGFERD_EXTENSION, conformanceLevel.getValue());
             case ZUGFeRDComfort:
-                return String.format(ZugferdXMPUtil.ZUGFERD_EXTENSION, "COMFORT");
+                return String.format(ZugferdXMPUtil.ZUGFERD_EXTENSION, conformanceLevel.getValue());
             case ZUGFeRDExtended:
-                return String.format(ZugferdXMPUtil.ZUGFERD_EXTENSION, "EXTENDED");
+                return String.format(ZugferdXMPUtil.ZUGFERD_EXTENSION, conformanceLevel.getValue());
             default:
                 return null;
         }

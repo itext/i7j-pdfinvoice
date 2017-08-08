@@ -45,7 +45,7 @@ package com.itextpdf.zugferd;
 import com.itextpdf.pdfa.PdfAXMPUtil;
 
 /**
- * The Class ZugferdXMPUtil.
+ * Class containing constants used in the XMP of a ZUGFeRD document.
  */
 public class ZugferdXMPUtil extends PdfAXMPUtil {
     
