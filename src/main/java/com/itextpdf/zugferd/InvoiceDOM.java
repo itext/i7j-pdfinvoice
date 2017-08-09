@@ -94,7 +94,8 @@ import com.itextpdf.zugferd.ZugferdProductInfo;
 import com.itextpdf.kernel.Version;
 
 /**
- * The Class InvoiceDOM.
+ * Represents the DOM structure of a ZUGFeRD invoice. It will load the data from the {@link com.itextpdf.zugferd.profiles.IBasicProfile IBasicProfile}
+ * implementation. This class is also responsible to transform this dom structure into an XML.
  */
 public class InvoiceDOM {
     
