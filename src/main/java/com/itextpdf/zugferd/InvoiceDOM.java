@@ -43,12 +43,6 @@
 package com.itextpdf.zugferd;
 
 import com.itextpdf.io.util.ResourceUtil;
-import java.lang.reflect.Array;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
-import com.itextpdf.zugferd.ZugferdProductInfo;
-import com.itextpdf.kernel.Version;
-
 import com.itextpdf.zugferd.exceptions.DataIncompleteException;
 import com.itextpdf.zugferd.exceptions.InvalidCodeException;
 import com.itextpdf.zugferd.profiles.IBasicProfile;
@@ -65,14 +59,6 @@ import com.itextpdf.zugferd.validation.comfort.FreeTextSubjectCode;
 import com.itextpdf.zugferd.validation.comfort.GlobalIdentifierCode;
 import com.itextpdf.zugferd.validation.comfort.PaymentMeansCode;
 import com.itextpdf.zugferd.validation.comfort.TaxCategoryCode;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.EntityResolver;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
 
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
@@ -85,11 +71,27 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
 import java.util.Date;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.EntityResolver;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+
+import java.lang.reflect.Array;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
+import com.itextpdf.zugferd.ZugferdProductInfo;
+import com.itextpdf.kernel.Version;
 
 /**
  * The Class InvoiceDOM.
@@ -194,7 +196,6 @@ public class InvoiceDOM {
                 throw new RuntimeException(e.getCause());
             }
         }
-
         // loading the XML template
         DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder docBuilder = docFactory.newDocumentBuilder();

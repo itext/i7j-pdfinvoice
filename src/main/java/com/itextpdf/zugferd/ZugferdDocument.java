@@ -42,26 +42,26 @@
  */
 package com.itextpdf.zugferd;
 
+import com.itextpdf.io.LogMessageConstant;
 import com.itextpdf.kernel.log.Counter;
 import com.itextpdf.kernel.log.CounterFactory;
 import com.itextpdf.kernel.pdf.PdfAConformanceLevel;
-import com.itextpdf.io.LogMessageConstant;
 import com.itextpdf.kernel.pdf.PdfOutputIntent;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.kernel.xmp.XMPException;
 import com.itextpdf.kernel.xmp.XMPMeta;
 import com.itextpdf.kernel.xmp.XMPMetaFactory;
 import com.itextpdf.kernel.xmp.XMPUtils;
+import com.itextpdf.pdfa.PdfADocument;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import com.itextpdf.zugferd.ZugferdProductInfo;
 import com.itextpdf.kernel.Version;
-
-import com.itextpdf.pdfa.PdfADocument;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * ZUGFeRD documents need to be PDF/A-3 compliant. This class inherits from the iText 7 {@link PdfADocument} implementation
