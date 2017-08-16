@@ -48,26 +48,11 @@ package com.itextpdf.zugferd;
 public enum ZugferdConformanceLevel {
     
     /** Conformance level for the Basic profile. */
-    ZUGFeRDBasic("BASIC"),
+    ZUGFeRDBasic,
     
     /** Conformance level for the Comfort profile. */
-    ZUGFeRDComfort("COMFORT"),
+    ZUGFeRDComfort,
     
     /** Conformance level for the Extended profile. */
-    ZUGFeRDExtended("EXTENDED");
-
-    ZugferdConformanceLevel(String value) {
-        this.value = value;
-    }
-
-    /**
-     * Returns the value of the enum.
-     *
-     * @return value of the enum
-     */
-    public String getValue() {
-        return value;
-    }
-
-    private String value;
+    ZUGFeRDExtended;
 }
