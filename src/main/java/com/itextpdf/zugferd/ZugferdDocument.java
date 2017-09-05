@@ -2,7 +2,7 @@
     This file is part of the iText (R) project.
     Copyright (c) 1998-2017 iText Group NV
     Authors: Bruno Lowagie, et al.
-    
+
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License version 3
     as published by the Free Software Foundation with the addition of the
@@ -10,7 +10,7 @@
     FOR ANY PART OF THE COVERED WORK IN WHICH THE COPYRIGHT IS OWNED BY
     ITEXT GROUP. ITEXT GROUP DISCLAIMS THE WARRANTY OF NON INFRINGEMENT
     OF THIRD PARTY RIGHTS
-    
+
     This program is distributed in the hope that it will be useful, but
     WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
     or FITNESS FOR A PARTICULAR PURPOSE.
@@ -20,15 +20,15 @@
     the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
     Boston, MA, 02110-1301 USA, or download the license from the following URL:
     http://itextpdf.com/terms-of-use/
-    
+
     The interactive user interfaces in modified source and object code versions
     of this program must display Appropriate Legal Notices, as required under
     Section 5 of the GNU Affero General Public License.
-    
+
     In accordance with Section 7(b) of the GNU Affero General Public License,
     a covered work must retain the producer line in every PDF that is created
     or manipulated using iText.
-    
+
     You can be released from the requirements of the license by purchasing
     a commercial license. Buying such a license is mandatory as soon as you
     develop commercial activities involving the iText software without
@@ -36,13 +36,14 @@
     These activities include: offering paid services to customers as an ASP,
     serving PDFs on the fly in a web application, shipping iText with a closed
     source product.
-    
+
     For more information, please contact iText Software Corp. at this
     address: sales@itextpdf.com
  */
 package com.itextpdf.zugferd;
 
 import com.itextpdf.io.LogMessageConstant;
+import com.itextpdf.io.util.MessageFormatUtil;
 import com.itextpdf.kernel.log.Counter;
 import com.itextpdf.kernel.log.CounterFactory;
 import com.itextpdf.kernel.pdf.PdfAConformanceLevel;
@@ -72,10 +73,10 @@ public class ZugferdDocument extends PdfADocument {
 
     /** The Constant PRODUCT_NAME. */
     private static final String PRODUCT_NAME = "pdfInvoice";
-    
+
     /** The Constant PRODUCT_MAJOR. */
     private static final int PRODUCT_MAJOR = 1;
-    
+
     /** The Constant PRODUCT_MINOR. */
     private static final int PRODUCT_MINOR = 0;
 
@@ -238,13 +239,18 @@ public class ZugferdDocument extends PdfADocument {
      * @return the ZUGFeRD extension
      */
     private String getZugferdExtension(ZugferdConformanceLevel conformanceLevel) {
+        // For the sake of porting to .NET we shall use MessageFormatUtil.format syntax, instead of
+        // the String.format one. As ZugferdXMPUtil.ZUGFERD_EXTENSION is a public final field, changing it
+        // is might be a binary backward compatibility breakage in some way, thus we fix it here in programmatic way.
+        // This will be removed in iText 7.1.
+        String zugferdExtensionFixedForMultiplatformHandling = ZugferdXMPUtil.ZUGFERD_EXTENSION.replace("%s", "{0}");
         switch (conformanceLevel) {
             case ZUGFeRDBasic:
-                return String.format(ZugferdXMPUtil.ZUGFERD_EXTENSION, "BASIC");
+                return MessageFormatUtil.format(zugferdExtensionFixedForMultiplatformHandling, "BASIC");
             case ZUGFeRDComfort:
-                return String.format(ZugferdXMPUtil.ZUGFERD_EXTENSION, "COMFORT");
+                return MessageFormatUtil.format(zugferdExtensionFixedForMultiplatformHandling, "COMFORT");
             case ZUGFeRDExtended:
-                return String.format(ZugferdXMPUtil.ZUGFERD_EXTENSION, "EXTENDED");
+                return MessageFormatUtil.format(zugferdExtensionFixedForMultiplatformHandling, "EXTENDED");
             default:
                 return null;
         }
