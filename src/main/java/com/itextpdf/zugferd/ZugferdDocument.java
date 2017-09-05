@@ -239,18 +239,13 @@ public class ZugferdDocument extends PdfADocument {
      * @return the ZUGFeRD extension
      */
     private String getZugferdExtension(ZugferdConformanceLevel conformanceLevel) {
-        // For the sake of porting to .NET we shall use MessageFormatUtil.format syntax, instead of
-        // the String.format one. As ZugferdXMPUtil.ZUGFERD_EXTENSION is a public final field, changing it
-        // is might be a binary backward compatibility breakage in some way, thus we fix it here in programmatic way.
-        // This will be removed in iText 7.1.
-        String zugferdExtensionFixedForMultiplatformHandling = ZugferdXMPUtil.ZUGFERD_EXTENSION.replace("%s", "{0}");
         switch (conformanceLevel) {
             case ZUGFeRDBasic:
-                return MessageFormatUtil.format(zugferdExtensionFixedForMultiplatformHandling, "BASIC");
+                return MessageFormatUtil.format(ZugferdXMPUtil.ZUGFERD_EXTENSION, "BASIC");
             case ZUGFeRDComfort:
-                return MessageFormatUtil.format(zugferdExtensionFixedForMultiplatformHandling, "COMFORT");
+                return MessageFormatUtil.format(ZugferdXMPUtil.ZUGFERD_EXTENSION, "COMFORT");
             case ZUGFeRDExtended:
-                return MessageFormatUtil.format(zugferdExtensionFixedForMultiplatformHandling, "EXTENDED");
+                return MessageFormatUtil.format(ZugferdXMPUtil.ZUGFERD_EXTENSION, "EXTENDED");
             default:
                 return null;
         }
