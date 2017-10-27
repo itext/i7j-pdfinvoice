@@ -5,12 +5,12 @@
   <parent>
     <groupId>com.itextpdf</groupId>
     <artifactId>root</artifactId>
-    <version>7.0.5-SNAPSHOT</version>
+    <version>7.0.5</version>
     <relativePath />
   </parent>
 
   <artifactId>zugferd</artifactId>
-  <version>1.0.2-SNAPSHOT</version>
+  <version>1.0.2</version>
 
   <name>pdfInvoice</name>
   <url>http://itextpdf.com/</url>
