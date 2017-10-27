@@ -1,7 +1,7 @@
 /*
     This file is part of the iText (R) project.
     Copyright (c) 1998-2017 iText Group NV
-    Authors: iText Software.
+    Authors: Bruno Lowagie, et al.
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License version 3
@@ -38,19 +38,27 @@
     source product.
 
     For more information, please contact iText Software Corp. at this
-    address: sales@itextpdf.com */
+    address: sales@itextpdf.com
+ */
 package com.itextpdf.zugferd.exceptions;
 
-import java.text.MessageFormat;
+import com.itextpdf.io.util.MessageFormatUtil;
 
 /**
  * This exception is thrown when you try to create a ZUGFeRD XML file
  * that doesn't contain all the required data.
  */
 public class DataIncompleteException extends Exception {
+
+    /** The Constant serialVersionUID. */
     private static final long serialVersionUID = -6083861287475694673L;
 
+    /**
+     * Instantiates a new data incomplete exception.
+     *
+     * @param tag the tag
+     */
     public DataIncompleteException(String tag) {
-        super(MessageFormat.format("The data is missing: {0}", tag));
+        super(MessageFormatUtil.format("The data is missing: {0}", tag));
     }
 }

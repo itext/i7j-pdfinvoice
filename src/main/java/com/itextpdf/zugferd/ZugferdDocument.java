@@ -1,7 +1,7 @@
 /*
     This file is part of the iText (R) project.
     Copyright (c) 1998-2017 iText Group NV
-    Authors: iText Software.
+    Authors: Bruno Lowagie, et al.
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License version 3
@@ -38,41 +38,62 @@
     source product.
 
     For more information, please contact iText Software Corp. at this
-    address: sales@itextpdf.com */
+    address: sales@itextpdf.com
+ */
 package com.itextpdf.zugferd;
 
-
+import com.itextpdf.io.LogMessageConstant;
+import com.itextpdf.io.util.MessageFormatUtil;
 import com.itextpdf.kernel.log.Counter;
 import com.itextpdf.kernel.log.CounterFactory;
 import com.itextpdf.kernel.pdf.PdfAConformanceLevel;
-import com.itextpdf.io.LogMessageConstant;
 import com.itextpdf.kernel.pdf.PdfOutputIntent;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.kernel.xmp.XMPException;
 import com.itextpdf.kernel.xmp.XMPMeta;
 import com.itextpdf.kernel.xmp.XMPMetaFactory;
 import com.itextpdf.kernel.xmp.XMPUtils;
+import com.itextpdf.pdfa.PdfADocument;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import com.itextpdf.zugferd.ZugferdProductInfo;
 import com.itextpdf.kernel.Version;
 
-import com.itextpdf.pdfa.PdfADocument;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+/**
+ * ZUGFeRD documents need to be PDF/A-3 compliant. This class inherits from the iText 7 {@link PdfADocument} implementation
+ * for convenience. The PdfADocument class will handle all of the PDF/A-3 compliance, while this class will handle the
+ * ZUGFeRD compliance.
+ */
 public class ZugferdDocument extends PdfADocument {
 
+    /** The Constant PRODUCT_NAME. */
     private static final String PRODUCT_NAME = "pdfInvoice";
+
+    /** The Constant PRODUCT_MAJOR. */
     private static final int PRODUCT_MAJOR = 1;
+
+    /** The Constant PRODUCT_MINOR. */
     private static final int PRODUCT_MINOR = 0;
 
+    /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 1737898087328462098L;
 
+    /** The ZUGFeRD conformance level. */
     private ZugferdConformanceLevel zugferdConformanceLevel;
 
+    /**
+     * Creates a ZUGFeRD document with the passed ZUGFeRD conformance level, PDF/A conformance level and output intent using the passed writer.
+     *
+     * @param writer Writer to output the PDF
+     * @param zugferdConformanceLevel ZUGFeRD conformance level, one of  the following: BASIC, COMFORT or EXTENDED
+     * @param pdfaConformanceLevel PDF/A conformance level
+     * @param outputIntent PDF/A output intent for the document.
+     */
     public ZugferdDocument(PdfWriter writer, ZugferdConformanceLevel zugferdConformanceLevel,
                            PdfAConformanceLevel pdfaConformanceLevel, PdfOutputIntent outputIntent) {
         super(writer, pdfaConformanceLevel, outputIntent);
@@ -114,18 +135,37 @@ public class ZugferdDocument extends PdfADocument {
         this.zugferdConformanceLevel = zugferdConformanceLevel;
     }
 
+    /**
+     * Creates a ZUGFeRD document with the passed ZUGFeRD conformance level and output intent using the passed writer. The PdfAConformanceLevel will be set to PDF/A-3B.
+     *
+     * @param writer Writer to output the pdf
+     * @param zugferdConformanceLevel ZUGFeRD conformance level, BASIC, COMFORT or EXTENDED
+     * @param outputIntent Pdf/A output intent for the document
+     */
     public ZugferdDocument(PdfWriter writer, ZugferdConformanceLevel zugferdConformanceLevel, PdfOutputIntent outputIntent) {
         this(writer, zugferdConformanceLevel, PdfAConformanceLevel.PDF_A_3B, outputIntent);
         Logger logger = LoggerFactory.getLogger(ZugferdDocument.class);
         logger.warn(ZugferdLogMessageConstant.WRONG_OR_NO_CONFORMANCE_LEVEL);
     }
 
+    /**
+     * Creates a ZUGFeRD document with the passed Pdf/A conformance level and output intent using the passed writer. The ZUGFeRD Conformance level will be set to BASIC.
+     *
+     * @param writer Writer to output the pdf
+     * @param pdfaConformanceLevel Pdf/A conformance level
+     * @param outputIntent Pdf/A output intent for the document
+     */
     public ZugferdDocument(PdfWriter writer, PdfAConformanceLevel pdfaConformanceLevel, PdfOutputIntent outputIntent) {
         this(writer, ZugferdConformanceLevel.ZUGFeRDBasic, pdfaConformanceLevel, outputIntent);
         Logger logger = LoggerFactory.getLogger(ZugferdDocument.class);
         logger.warn(ZugferdLogMessageConstant.NO_ZUGFERD_PROFILE_TYPE_SPECIFIED);
     }
 
+    /**
+     * Create a ZUGFeRD document with the given output intent using given the writer. The ZUGFeRD Conformance level will be set to BASIC and the Pdf/A conformance level will be set to PDF/A-3B.
+     * @param writer Writer to output the pdf
+     * @param outputIntent Pdf/A output intent for the document
+     */
     public ZugferdDocument(PdfWriter writer, PdfOutputIntent outputIntent) {
         this(writer, ZugferdConformanceLevel.ZUGFeRDBasic, PdfAConformanceLevel.PDF_A_3B, outputIntent);
         Logger logger = LoggerFactory.getLogger(ZugferdDocument.class);
@@ -133,6 +173,9 @@ public class ZugferdDocument extends PdfADocument {
         logger.warn(ZugferdLogMessageConstant.NO_ZUGFERD_PROFILE_TYPE_SPECIFIED);
     }
 
+    /* (non-Javadoc)
+     * @see com.itextpdf.pdfa.PdfADocument#addCustomMetadataExtensions(com.itextpdf.kernel.xmp.XMPMeta)
+     */
     @Override
     protected void addCustomMetadataExtensions(XMPMeta xmpMeta) {
         super.addCustomMetadataExtensions(xmpMeta);
@@ -144,26 +187,42 @@ public class ZugferdDocument extends PdfADocument {
         }
     }
 
+    /* (non-Javadoc)
+     * @see com.itextpdf.pdfa.PdfADocument#setChecker(com.itextpdf.kernel.pdf.PdfAConformanceLevel)
+     */
     @Override
     protected void setChecker(PdfAConformanceLevel conformanceLevel) {
         if (!conformanceLevel.equals(PdfAConformanceLevel.PDF_A_3B)) {
             Logger logger = LoggerFactory.getLogger(ZugferdDocument.class);
             logger.warn(ZugferdLogMessageConstant.WRONG_OR_NO_CONFORMANCE_LEVEL);
+
             checker = new ZugferdChecker(PdfAConformanceLevel.PDF_A_3B);
         } else {
             checker = new ZugferdChecker(conformanceLevel);
         }
     }
 
+    /* (non-Javadoc)
+     * @see com.itextpdf.pdfa.PdfADocument#getCounter()
+     */
     @Override
     protected Counter getCounter() {
         return CounterFactory.getCounter(ZugferdDocument.class);
     }
 
+    /**
+     * Adds the ZUGFeRD RDF description.
+     *
+     * @param xmpMeta the xmp meta
+     * @param zugferdConformanceLevel the zugferd conformance level
+     * @throws XMPException the XMP exception
+     */
     private void addZugferdRdfDescription(XMPMeta xmpMeta, ZugferdConformanceLevel zugferdConformanceLevel) throws XMPException {
         switch (zugferdConformanceLevel) {
             case ZUGFeRDBasic:
+                // fallthrough
             case ZUGFeRDComfort:
+                // fallthrough
             case ZUGFeRDExtended:
                 XMPMeta taggedExtensionMetaComfort = XMPMetaFactory.parseFromString(getZugferdExtension(zugferdConformanceLevel));
                 XMPUtils.appendProperties(taggedExtensionMetaComfort, xmpMeta, true, false);
@@ -173,14 +232,25 @@ public class ZugferdDocument extends PdfADocument {
         }
     }
 
+    /**
+     * Gets the ZUGFeRD extension.
+     *
+     * @param conformanceLevel the conformance level
+     * @return the ZUGFeRD extension
+     */
     private String getZugferdExtension(ZugferdConformanceLevel conformanceLevel) {
+        // For the sake of porting to .NET we shall use MessageFormatUtil.format syntax, instead of
+        // the String.format one. As ZugferdXMPUtil.ZUGFERD_EXTENSION is a public final field, changing it
+        // is might be a binary backward compatibility breakage in some way, thus we fix it here in programmatic way.
+        // This will be removed in iText 7.1.
+        String zugferdExtensionFixedForMultiplatformHandling = ZugferdXMPUtil.ZUGFERD_EXTENSION.replace("%s", "{0}");
         switch (conformanceLevel) {
             case ZUGFeRDBasic:
-                return String.format(ZugferdXMPUtil.ZUGFERD_EXTENSION, "BASIC");
+                return MessageFormatUtil.format(zugferdExtensionFixedForMultiplatformHandling, "BASIC");
             case ZUGFeRDComfort:
-                return String.format(ZugferdXMPUtil.ZUGFERD_EXTENSION, "COMFORT");
+                return MessageFormatUtil.format(zugferdExtensionFixedForMultiplatformHandling, "COMFORT");
             case ZUGFeRDExtended:
-                return String.format(ZugferdXMPUtil.ZUGFERD_EXTENSION, "EXTENDED");
+                return MessageFormatUtil.format(zugferdExtensionFixedForMultiplatformHandling, "EXTENDED");
             default:
                 return null;
         }

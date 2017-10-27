@@ -1,7 +1,7 @@
 /*
     This file is part of the iText (R) project.
     Copyright (c) 1998-2017 iText Group NV
-    Authors: iText Software.
+    Authors: Bruno Lowagie, et al.
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License version 3
@@ -38,10 +38,11 @@
     source product.
 
     For more information, please contact iText Software Corp. at this
-    address: sales@itextpdf.com */
+    address: sales@itextpdf.com
+ */
 package com.itextpdf.zugferd.exceptions;
 
-import java.text.MessageFormat;
+import com.itextpdf.io.util.MessageFormatUtil;
 
 /**
  * This exception is thrown when you try to create a ZUGFeRD XML file
@@ -50,9 +51,16 @@ import java.text.MessageFormat;
  */
 public class InvalidCodeException extends Exception {
 
+    /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 8338708023399979908L;
 
+    /**
+     * Instantiates a new invalid code exception.
+     *
+     * @param code the code
+     * @param context the context
+     */
     public InvalidCodeException(String code, String context) {
-        super(MessageFormat.format("{0} is an invalid code for {1}", code, context));
+        super(MessageFormatUtil.format("{0} is an invalid code for {1}", code, context));
     }
 }
