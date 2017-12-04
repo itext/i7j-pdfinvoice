@@ -44,8 +44,8 @@ package com.itextpdf.zugferd;
 
 import com.itextpdf.io.LogMessageConstant;
 import com.itextpdf.io.util.MessageFormatUtil;
-import com.itextpdf.kernel.log.Counter;
-import com.itextpdf.kernel.log.CounterFactory;
+import com.itextpdf.kernel.log.CounterManager;
+import com.itextpdf.kernel.log.ICounter;
 import com.itextpdf.kernel.pdf.PdfAConformanceLevel;
 import com.itextpdf.kernel.pdf.PdfOutputIntent;
 import com.itextpdf.kernel.pdf.PdfWriter;
@@ -61,6 +61,8 @@ import org.slf4j.LoggerFactory;
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.util.List;
+
 import com.itextpdf.zugferd.ZugferdProductInfo;
 import com.itextpdf.kernel.Version;
 
@@ -203,11 +205,11 @@ public class ZugferdDocument extends PdfADocument {
     }
 
     /* (non-Javadoc)
-     * @see com.itextpdf.pdfa.PdfADocument#getCounter()
+     * @see com.itextpdf.pdfa.PdfADocument#getCounters()
      */
     @Override
-    protected Counter getCounter() {
-        return CounterFactory.getCounter(ZugferdDocument.class);
+    protected List<ICounter> getCounters() {
+        return CounterManager.getInstance().getCounters(ZugferdDocument.class);
     }
 
     /**
@@ -239,18 +241,13 @@ public class ZugferdDocument extends PdfADocument {
      * @return the ZUGFeRD extension
      */
     private String getZugferdExtension(ZugferdConformanceLevel conformanceLevel) {
-        // For the sake of porting to .NET we shall use MessageFormatUtil.format syntax, instead of
-        // the String.format one. As ZugferdXMPUtil.ZUGFERD_EXTENSION is a public final field, changing it
-        // is might be a binary backward compatibility breakage in some way, thus we fix it here in programmatic way.
-        // This will be removed in iText 7.1.
-        String zugferdExtensionFixedForMultiplatformHandling = ZugferdXMPUtil.ZUGFERD_EXTENSION.replace("%s", "{0}");
         switch (conformanceLevel) {
             case ZUGFeRDBasic:
-                return MessageFormatUtil.format(zugferdExtensionFixedForMultiplatformHandling, "BASIC");
+                return MessageFormatUtil.format(ZugferdXMPUtil.ZUGFERD_EXTENSION, "BASIC");
             case ZUGFeRDComfort:
-                return MessageFormatUtil.format(zugferdExtensionFixedForMultiplatformHandling, "COMFORT");
+                return MessageFormatUtil.format(ZugferdXMPUtil.ZUGFERD_EXTENSION, "COMFORT");
             case ZUGFeRDExtended:
-                return MessageFormatUtil.format(zugferdExtensionFixedForMultiplatformHandling, "EXTENDED");
+                return MessageFormatUtil.format(ZugferdXMPUtil.ZUGFERD_EXTENSION, "EXTENDED");
             default:
                 return null;
         }
