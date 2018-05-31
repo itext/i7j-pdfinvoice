@@ -44,6 +44,7 @@ package com.itextpdf.zugferd;
 
 import com.itextpdf.io.LogMessageConstant;
 import com.itextpdf.io.util.MessageFormatUtil;
+import com.itextpdf.kernel.counter.EventCounterHandler;
 import com.itextpdf.kernel.log.CounterManager;
 import com.itextpdf.kernel.log.ICounter;
 import com.itextpdf.kernel.pdf.PdfAConformanceLevel;
@@ -55,6 +56,7 @@ import com.itextpdf.kernel.xmp.XMPMetaFactory;
 import com.itextpdf.kernel.xmp.XMPUtils;
 import com.itextpdf.pdfa.PdfADocument;
 
+import com.itextpdf.zugferd.events.PdfInvoiceEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -63,7 +65,6 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.List;
 
-import com.itextpdf.zugferd.ZugferdProductInfo;
 import com.itextpdf.kernel.Version;
 
 /**
@@ -135,6 +136,7 @@ public class ZugferdDocument extends PdfADocument {
             }
         }
         this.zugferdConformanceLevel = zugferdConformanceLevel;
+        EventCounterHandler.getInstance().onEvent(PdfInvoiceEvent.DOCUMENT, getClass());
     }
 
     /**
@@ -207,6 +209,7 @@ public class ZugferdDocument extends PdfADocument {
     /* (non-Javadoc)
      * @see com.itextpdf.pdfa.PdfADocument#getCounters()
      */
+    @Deprecated
     @Override
     protected List<ICounter> getCounters() {
         return CounterManager.getInstance().getCounters(ZugferdDocument.class);

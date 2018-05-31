@@ -43,6 +43,8 @@
 package com.itextpdf.zugferd;
 
 import com.itextpdf.io.util.ResourceUtil;
+import com.itextpdf.kernel.counter.EventCounterHandler;
+import com.itextpdf.zugferd.events.PdfInvoiceEvent;
 import com.itextpdf.zugferd.exceptions.DataIncompleteException;
 import com.itextpdf.zugferd.exceptions.InvalidCodeException;
 import com.itextpdf.zugferd.profiles.IBasicProfile;
@@ -90,7 +92,7 @@ import org.xml.sax.SAXException;
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
-import com.itextpdf.zugferd.ZugferdProductInfo;
+
 import com.itextpdf.kernel.Version;
 
 /**
@@ -205,6 +207,7 @@ public class InvoiceDOM {
         doc = docBuilder.parse(is);
         // importing the data
         importData(doc, data);
+        EventCounterHandler.getInstance().onEvent(PdfInvoiceEvent.PROFILE, getClass());
     }
 
     // top-level import methods
