@@ -155,6 +155,7 @@ public class InvoiceDOM {
      *
      * @param data If this is an instance of BASICInvoice, the BASIC profile will be used;
      *             If this is an instance of COMFORTInvoice, the COMFORT profile will be used.
+     *
      * @throws ParserConfigurationException the parser configuration exception
      * @throws SAXException the SAX exception
      * @throws IOException Signals that an I/O exception has occurred.
@@ -162,6 +163,24 @@ public class InvoiceDOM {
      * @throws InvalidCodeException the invalid code exception
      */
     public InvoiceDOM(IBasicProfile data)
+            throws ParserConfigurationException, SAXException, IOException,
+            DataIncompleteException, InvalidCodeException {
+        this(data, new InvoiceProperties());
+    }
+
+    /**
+     * Creates an object that will import data into an XML template.
+     *
+     * @param data If this is an instance of BASICInvoice, the BASIC profile will be used;
+     *             If this is an instance of COMFORTInvoice, the COMFORT profile will be used.
+     * @param properties Invoice properties.
+     * @throws ParserConfigurationException the parser configuration exception
+     * @throws SAXException the SAX exception
+     * @throws IOException Signals that an I/O exception has occurred.
+     * @throws DataIncompleteException the data incomplete exception
+     * @throws InvalidCodeException the invalid code exception
+     */
+    public InvoiceDOM(IBasicProfile data, InvoiceProperties properties)
             throws ParserConfigurationException, SAXException, IOException,
             DataIncompleteException, InvalidCodeException {
         String licenseKeyClassName = "com.itextpdf.licensekey.LicenseKey";
@@ -207,7 +226,7 @@ public class InvoiceDOM {
         doc = docBuilder.parse(is);
         // importing the data
         importData(doc, data);
-        EventCounterHandler.getInstance().onEvent(PdfInvoiceEvent.PROFILE, getClass());
+        EventCounterHandler.getInstance().onEvent(PdfInvoiceEvent.PROFILE, properties.metaInfo, getClass());
     }
 
     // top-level import methods
