@@ -76,15 +76,6 @@ import com.itextpdf.kernel.Version;
  */
 public class ZugferdDocument extends PdfADocument {
 
-    /** The Constant PRODUCT_NAME. */
-    private static final String PRODUCT_NAME = "pdfInvoice";
-
-    /** The Constant PRODUCT_MAJOR. */
-    private static final int PRODUCT_MAJOR = 1;
-
-    /** The Constant PRODUCT_MINOR. */
-    private static final int PRODUCT_MINOR = 0;
-
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 1737898087328462098L;
 

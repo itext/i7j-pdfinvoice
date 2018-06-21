@@ -100,15 +100,6 @@ import com.itextpdf.kernel.Version;
  * implementation. This class is also responsible to transform this dom structure into an XML.
  */
 public class InvoiceDOM {
-    
-    /** The Constant PRODUCT_NAME. */
-    private static final String PRODUCT_NAME = "pdfInvoice";
-    
-    /** The Constant PRODUCT_MAJOR. */
-    private static final int PRODUCT_MAJOR = 1;
-    
-    /** The Constant PRODUCT_MINOR. */
-    private static final int PRODUCT_MINOR = 0;
 
     // code checkers
     
