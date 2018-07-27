@@ -1,6 +1,6 @@
 /*
     This file is part of the iText (R) project.
-    Copyright (c) 1998-2017 iText Group NV
+    Copyright (c) 1998-2018 iText Group NV
     Authors: Bruno Lowagie, et al.
 
     This program is free software; you can redistribute it and/or modify
@@ -44,8 +44,11 @@ package com.itextpdf.zugferd;
 
 import com.itextpdf.io.LogMessageConstant;
 import com.itextpdf.io.util.MessageFormatUtil;
+import com.itextpdf.kernel.counter.EventCounterHandler;
+import com.itextpdf.kernel.counter.event.IMetaInfo;
 import com.itextpdf.kernel.log.CounterManager;
 import com.itextpdf.kernel.log.ICounter;
+import com.itextpdf.kernel.pdf.DocumentProperties;
 import com.itextpdf.kernel.pdf.PdfAConformanceLevel;
 import com.itextpdf.kernel.pdf.PdfOutputIntent;
 import com.itextpdf.kernel.pdf.PdfWriter;
@@ -55,6 +58,7 @@ import com.itextpdf.kernel.xmp.XMPMetaFactory;
 import com.itextpdf.kernel.xmp.XMPUtils;
 import com.itextpdf.pdfa.PdfADocument;
 
+import com.itextpdf.zugferd.events.PdfInvoiceEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -63,7 +67,6 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.List;
 
-import com.itextpdf.zugferd.ZugferdProductInfo;
 import com.itextpdf.kernel.Version;
 
 /**
@@ -72,15 +75,6 @@ import com.itextpdf.kernel.Version;
  * ZUGFeRD compliance.
  */
 public class ZugferdDocument extends PdfADocument {
-
-    /** The Constant PRODUCT_NAME. */
-    private static final String PRODUCT_NAME = "pdfInvoice";
-
-    /** The Constant PRODUCT_MAJOR. */
-    private static final int PRODUCT_MAJOR = 1;
-
-    /** The Constant PRODUCT_MINOR. */
-    private static final int PRODUCT_MINOR = 0;
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 1737898087328462098L;
@@ -92,13 +86,10 @@ public class ZugferdDocument extends PdfADocument {
      * Creates a ZUGFeRD document with the passed ZUGFeRD conformance level, PDF/A conformance level and output intent using the passed writer.
      *
      * @param writer Writer to output the PDF
-     * @param zugferdConformanceLevel ZUGFeRD conformance level, one of  the following: BASIC, COMFORT or EXTENDED
-     * @param pdfaConformanceLevel PDF/A conformance level
-     * @param outputIntent PDF/A output intent for the document.
+     * @param properties ZUGFeRD properties.
      */
-    public ZugferdDocument(PdfWriter writer, ZugferdConformanceLevel zugferdConformanceLevel,
-                           PdfAConformanceLevel pdfaConformanceLevel, PdfOutputIntent outputIntent) {
-        super(writer, pdfaConformanceLevel, outputIntent);
+    public ZugferdDocument(PdfWriter writer, ZugferdProperties properties) {
+        super(writer, getPdfAConformanceLevel(properties), properties.pdfOutputIntent, new DocumentProperties().setEventCountingMetaInfo(new ZugferdMetaInfo()));
         String licenseKeyClassName = "com.itextpdf.licensekey.LicenseKey";
         String licenseKeyProductClassName = "com.itextpdf.licensekey.LicenseKeyProduct";
         String licenseKeyFeatureClassName = "com.itextpdf.licensekey.LicenseKeyProductFeature";
@@ -134,7 +125,21 @@ public class ZugferdDocument extends PdfADocument {
                 throw new RuntimeException(e.getCause());
             }
         }
-        this.zugferdConformanceLevel = zugferdConformanceLevel;
+        this.zugferdConformanceLevel = getZugferdConformanceLevel(properties);
+        EventCounterHandler.getInstance().onEvent(PdfInvoiceEvent.DOCUMENT, properties.metaInfo, getClass());
+    }
+
+    /**
+     * Creates a ZUGFeRD document with the passed ZUGFeRD conformance level, PDF/A conformance level and output intent using the passed writer.
+     *
+     * @param writer Writer to output the PDF
+     * @param zugferdConformanceLevel ZUGFeRD conformance level, one of  the following: BASIC, COMFORT or EXTENDED
+     * @param pdfaConformanceLevel PDF/A conformance level
+     * @param outputIntent PDF/A output intent for the document.
+     */
+    public ZugferdDocument(PdfWriter writer, ZugferdConformanceLevel zugferdConformanceLevel,
+                           PdfAConformanceLevel pdfaConformanceLevel, PdfOutputIntent outputIntent) {
+        this(writer, new ZugferdProperties().setZugferdConformanceLevel(zugferdConformanceLevel).setPdfAConformanceLevel(pdfaConformanceLevel).setPdfOutputIntent(outputIntent));
     }
 
     /**
@@ -145,9 +150,7 @@ public class ZugferdDocument extends PdfADocument {
      * @param outputIntent Pdf/A output intent for the document
      */
     public ZugferdDocument(PdfWriter writer, ZugferdConformanceLevel zugferdConformanceLevel, PdfOutputIntent outputIntent) {
-        this(writer, zugferdConformanceLevel, PdfAConformanceLevel.PDF_A_3B, outputIntent);
-        Logger logger = LoggerFactory.getLogger(ZugferdDocument.class);
-        logger.warn(ZugferdLogMessageConstant.WRONG_OR_NO_CONFORMANCE_LEVEL);
+        this(writer, zugferdConformanceLevel, null, outputIntent);
     }
 
     /**
@@ -158,9 +161,8 @@ public class ZugferdDocument extends PdfADocument {
      * @param outputIntent Pdf/A output intent for the document
      */
     public ZugferdDocument(PdfWriter writer, PdfAConformanceLevel pdfaConformanceLevel, PdfOutputIntent outputIntent) {
-        this(writer, ZugferdConformanceLevel.ZUGFeRDBasic, pdfaConformanceLevel, outputIntent);
-        Logger logger = LoggerFactory.getLogger(ZugferdDocument.class);
-        logger.warn(ZugferdLogMessageConstant.NO_ZUGFERD_PROFILE_TYPE_SPECIFIED);
+        this(writer, null, pdfaConformanceLevel, outputIntent);
+
     }
 
     /**
@@ -169,10 +171,7 @@ public class ZugferdDocument extends PdfADocument {
      * @param outputIntent Pdf/A output intent for the document
      */
     public ZugferdDocument(PdfWriter writer, PdfOutputIntent outputIntent) {
-        this(writer, ZugferdConformanceLevel.ZUGFeRDBasic, PdfAConformanceLevel.PDF_A_3B, outputIntent);
-        Logger logger = LoggerFactory.getLogger(ZugferdDocument.class);
-        logger.warn(ZugferdLogMessageConstant.WRONG_OR_NO_CONFORMANCE_LEVEL);
-        logger.warn(ZugferdLogMessageConstant.NO_ZUGFERD_PROFILE_TYPE_SPECIFIED);
+        this(writer, null, null, outputIntent);
     }
 
     /* (non-Javadoc)
@@ -207,6 +206,7 @@ public class ZugferdDocument extends PdfADocument {
     /* (non-Javadoc)
      * @see com.itextpdf.pdfa.PdfADocument#getCounters()
      */
+    @Deprecated
     @Override
     protected List<ICounter> getCounters() {
         return CounterManager.getInstance().getCounters(ZugferdDocument.class);
@@ -251,5 +251,30 @@ public class ZugferdDocument extends PdfADocument {
             default:
                 return null;
         }
+    }
+
+    private static PdfAConformanceLevel getPdfAConformanceLevel(ZugferdProperties properties) {
+        PdfAConformanceLevel local = properties.pdfaConformanceLevel;
+        if (local != null) {
+            return local;
+        } else {
+            LoggerFactory.getLogger(ZugferdDocument.class).warn(ZugferdLogMessageConstant.WRONG_OR_NO_CONFORMANCE_LEVEL);
+            return PdfAConformanceLevel.PDF_A_3B;
+        }
+    }
+
+    private static ZugferdConformanceLevel getZugferdConformanceLevel(ZugferdProperties properties) {
+        ZugferdConformanceLevel local = properties.zugferdConformanceLevel;
+        if (local != null) {
+            return local;
+        } else {
+            LoggerFactory.getLogger(ZugferdDocument.class).warn(ZugferdLogMessageConstant.NO_ZUGFERD_PROFILE_TYPE_SPECIFIED);
+            return ZugferdConformanceLevel.ZUGFeRDBasic;
+        }
+    }
+
+    private static class ZugferdMetaInfo implements IMetaInfo {
+
+        private static final long serialVersionUID = -2022871056576306571L;
     }
 }

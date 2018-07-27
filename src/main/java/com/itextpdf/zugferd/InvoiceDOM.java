@@ -1,6 +1,6 @@
 /*
     This file is part of the iText (R) project.
-    Copyright (c) 1998-2017 iText Group NV
+    Copyright (c) 1998-2018 iText Group NV
     Authors: Bruno Lowagie, et al.
     
     This program is free software; you can redistribute it and/or modify
@@ -43,6 +43,8 @@
 package com.itextpdf.zugferd;
 
 import com.itextpdf.io.util.ResourceUtil;
+import com.itextpdf.kernel.counter.EventCounterHandler;
+import com.itextpdf.zugferd.events.PdfInvoiceEvent;
 import com.itextpdf.zugferd.exceptions.DataIncompleteException;
 import com.itextpdf.zugferd.exceptions.InvalidCodeException;
 import com.itextpdf.zugferd.profiles.IBasicProfile;
@@ -90,7 +92,7 @@ import org.xml.sax.SAXException;
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
-import com.itextpdf.zugferd.ZugferdProductInfo;
+
 import com.itextpdf.kernel.Version;
 
 /**
@@ -98,15 +100,6 @@ import com.itextpdf.kernel.Version;
  * implementation. This class is also responsible to transform this dom structure into an XML.
  */
 public class InvoiceDOM {
-    
-    /** The Constant PRODUCT_NAME. */
-    private static final String PRODUCT_NAME = "pdfInvoice";
-    
-    /** The Constant PRODUCT_MAJOR. */
-    private static final int PRODUCT_MAJOR = 1;
-    
-    /** The Constant PRODUCT_MINOR. */
-    private static final int PRODUCT_MINOR = 0;
 
     // code checkers
     
@@ -153,6 +146,7 @@ public class InvoiceDOM {
      *
      * @param data If this is an instance of BASICInvoice, the BASIC profile will be used;
      *             If this is an instance of COMFORTInvoice, the COMFORT profile will be used.
+     *
      * @throws ParserConfigurationException the parser configuration exception
      * @throws SAXException the SAX exception
      * @throws IOException Signals that an I/O exception has occurred.
@@ -160,6 +154,24 @@ public class InvoiceDOM {
      * @throws InvalidCodeException the invalid code exception
      */
     public InvoiceDOM(IBasicProfile data)
+            throws ParserConfigurationException, SAXException, IOException,
+            DataIncompleteException, InvalidCodeException {
+        this(data, new InvoiceProperties());
+    }
+
+    /**
+     * Creates an object that will import data into an XML template.
+     *
+     * @param data If this is an instance of BASICInvoice, the BASIC profile will be used;
+     *             If this is an instance of COMFORTInvoice, the COMFORT profile will be used.
+     * @param properties Invoice properties.
+     * @throws ParserConfigurationException the parser configuration exception
+     * @throws SAXException the SAX exception
+     * @throws IOException Signals that an I/O exception has occurred.
+     * @throws DataIncompleteException the data incomplete exception
+     * @throws InvalidCodeException the invalid code exception
+     */
+    public InvoiceDOM(IBasicProfile data, InvoiceProperties properties)
             throws ParserConfigurationException, SAXException, IOException,
             DataIncompleteException, InvalidCodeException {
         String licenseKeyClassName = "com.itextpdf.licensekey.LicenseKey";
@@ -205,6 +217,7 @@ public class InvoiceDOM {
         doc = docBuilder.parse(is);
         // importing the data
         importData(doc, data);
+        EventCounterHandler.getInstance().onEvent(PdfInvoiceEvent.PROFILE, properties.metaInfo, getClass());
     }
 
     // top-level import methods
